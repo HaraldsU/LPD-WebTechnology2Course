@@ -1,3 +1,10 @@
+<script>
+    var perfEntries = performance.getEntriesByType("navigation");
+
+    if (perfEntries[0].type === "back_forward") {
+        location.reload(true);
+    }
+</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,15 +15,16 @@
     <meta name="keywords" content="keywords" />
     <link rel="stylesheet" href="<?php echo asset('css/landing.css')?>" type="text/css">
     <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                {{-- <p id="lpd" class="login-text">©lpdhu21001</p> --}}
                 @if (Route::has('login'))
                 <div class="login2">
                     @auth
-                        {{-- <a href="{{ url('/home') }}" class="login-text">Home</a> --}}
                         <a href="{{ url('/logout') }}" id="logout">Logout</a>
                     @else
                         <a href="{{ route('login') }}" class="login-text">Log in</a>
@@ -32,50 +40,81 @@
     <section id="second">
         <div class="right">
             <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
-            <form type="POST" action="{{url('/search')}}">
-                <input type="search" placeholder="Make a search" name="name">
-                <button type="Submit">Search</button>
+            <form class="sform" method="POST" action="{{route('csearch')}}">
+                @csrf
+                <input type="text" placeholder="Search Category" name="search">
+                <button type="submit">Search</button>
+                <input type="checkbox" name="keyword" id="keyword" required>
+                <label for="keyword">By Keyword</label>
+                <input type="checkbox" name="name" id="name" required>
+                <label for="name">By Name</label>
             </form>
-            <button onclick="showCategory()" id="blogc">Blog Categories</button>
-            @foreach ($category as $category1)
-                <button onclick="editCategory('{{$category1->id}}')" id="catedit">Edit</button>
-            @endforeach
-            @foreach ($category as $category1)
-                <button onclick="deleteCategory('{{$category1->id}}')" id="catdel">Delete</button>
-            @endforeach
+            <script>
+                $(function(){
+                    var requiredCheckboxes = $('.sform :checkbox[required]');
+                    requiredCheckboxes.change(function(){
+                        if(requiredCheckboxes.is(':checked')) {
+                            requiredCheckboxes.removeAttr('required');
+                        } else {
+                            requiredCheckboxes.attr('required', 'required');
+                        }
+                    });
+                });
+            </script>
+            {{-- @if (Auth::check()) --}}
+            {{-- @endif --}}
+            <button onclick="showCategory()" id="catc">Blog Categories</button>
+            <button onclick="createCategory()" id="createcat">Create New Category</button>
         </div>
     </section>
     <section id="third3">
-        @if (count($blogs) > 0)
-        @php ($i = 1)
-        @foreach ($blogs->reverse() as $blog)
-         @if ($i != 5)
-            {{-- {{$id}} --}}
+        {{-- {{$categories}} --}}
+        {{-- @foreach ($categories as $category)
+            {{$category->id}}
+        @endforeach --}}
+        {{-- {{count($blogs)}} --}}
+        {{-- {{$blogs}} --}}
+        {{-- @foreach ($blogs as $blog)
+            {{$blog->pluck('id')}}
+        @endforeach --}}
+
+        @if (count($categories) > 0)
+        @foreach ($categories as $category)
             <div class="img1">
-                <h1 class="imgt">{{$blog->name}}</h1>
-                <a onclick="showBlog({{$blog->id}})"><img id="imgc" class="image inverted" src="{{$blog->link}}"></a>
+                <h1 class="imgt">{{$category->id}}</h1>
+                <a onclick="showBlogs('{{$category->id}}')"><img id="imgc" class="image inverted" src="{{$category->link}}"></a>
             </div>
-            @php ($i++)
-            {{-- {{$i}} --}}
-            @endif
         @endforeach
         @else
-        <p class="no">No blogs in this category yet :(</p>
+        <p class="sno">Search found nothing :(</p>
         @endif
         <script>
-            function deleteCategory(categoryID) {
-            window.location.href = "/category/delete/" + categoryID;
-        }
-            function showBlog(blogID) {
-                window.location.href = "/blog/" + blogID;
-            }
             function showCategory() {
                 window.location.href = "/category";
             }
-            function editCategory(categoryID) {
-                window.location.href = "/category/edit/" + categoryID;
+            function createCategory() {
+                // alert("hello");
+                window.location.href = "/createcategory";
+            }
+            function showBlogs(categName) {
+                // alert("hello");
+                window.location.href = "/category/" + categName;
             }
         </script>
+        {{-- <script>
+            if(Cookies.get('isDark') == 'true'){
+                // alert("hello")
+                document.documentElement.classList.toggle('dark-mode');
+                var element = document.getElementById("bswitch");
+                if (element.innerHTML == "Light"){
+                    element.innerHTML = "Dark";
+                }
+                else element.innerHTML = "Light";
+                document.querySelectorAll('.inverted').forEach(result => {
+                        result.classList.toggle('invert');
+                });
+            }
+        </script> --}}
         <script>
             if (getCookie('theme') == null){
                 // alert("null");

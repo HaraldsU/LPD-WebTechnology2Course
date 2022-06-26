@@ -32,72 +32,82 @@
         </div>
     </section>
     <section id="third3">
-        <form method="POST" action="{{action([App\Http\Controllers\BlogController::class, 'store'])}}" id="blogform">
-            <input type="text" name="name" placeholder="Blog Name">
-            <br>
-            <br>
-            <textarea type="text" name="content" placeholder="Blog Content" id="content" class="content"></textarea>
-            <br>
-            <br>
-            <input type="text" name="link" placeholder="Image Link">
-            <br>
-            <br>
-            {{-- <input type="text" name="keyword1" placeholder="Keyword1 (can be empty)"> --}}
-            {{-- @foreach ($keywords as $keyword)
-            {{$keyword->id}}
-            {{$keyword}}
-            @endforeach --}}
-            <select name="keyword1">
-                <option value="" disabled selected>Keyword1 (can be empty)</option>
-                @foreach ($keywords as $keyword)
-                    <option value="{{$keyword->id}}">{{$keyword->id}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            <select name="keyword2">
-                <option value="" disabled selected>Keyword2 (can be empty)</option>
-                @foreach ($keywords as $keyword)
-                    <option value="{{$keyword->id}}">{{$keyword->id}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            <select name="keyword3">
-                <option value="" disabled selected>Keyword3 (can be empty)</option>
-                @foreach ($keywords as $keyword)
-                    <option value="{{$keyword->id}}">{{$keyword->id}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            <select name="keyword4">
-                <option value="" disabled selected>Keyword4 (can be empty)</option>
-                @foreach ($keywords as $keyword)
-                    <option value="{{$keyword->id}}">{{$keyword->id}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            <select name="keyword5">
-                <option value="" disabled selected>Keyword5 (can be empty)</option>
-                @foreach ($keywords as $keyword)
-                    <option value="{{$keyword->id}}">{{$keyword->id}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            {{-- <input type="text" name="category_id" placeholder="Blog Category (can be empty)"> --}}
-            <select name="category_id">
-                <option value="" disabled selected>Blog Category (can be empty)</option>
-                @foreach ($categories as $category)
-                    <option value="{{$category->id}}">{{$category->id}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            <input type="submit" value="Make Blog" id="blogadd">
-        </form>
+        {{-- @foreach ($category as $category1)
+            {{$category1}}
+        @endforeach --}}
+        @foreach ($category as $category1)
+            <form method="POST" action="{{action([App\Http\Controllers\BlogCategoryController::class, 'update'], $category1->id)}}" id="catform">
+                @csrf
+                {{ method_field('PUT') }}
+                <input type="text" name="id" placeholder="{{$category1->id}}">
+                <br>
+                <br>
+                <input type="text" name="link" placeholder="{{$category1->link}}">
+                <br>
+                <br>
+                <select name="keyword1">
+                    @if ($category1->keyword1 != 0)
+                        <option value="" disabled selected>{{$category1->keyword1}}</option>
+                    @else
+                        <option value="" disabled selected>Keyword1 (can be empty)</option>
+                    @endif
+                    @foreach ($keywords as $keyword)
+                        <option value="{{$keyword->id}}">{{$keyword->id}}</option>
+                    @endforeach
+                </select>
+                <br>
+                <br>
+                <select name="keyword2">
+                    @if ($category1->keyword2 != 0)
+                    <option value="" disabled selected>{{$category1->keyword2}}</option>
+                    @else
+                    <option value="" disabled selected>Keyword2 (can be empty)</option>
+                    @endif
+                    @foreach ($keywords as $keyword)
+                        <option value="{{$keyword->id}}">{{$keyword->id}}</option>
+                    @endforeach
+                </select>
+                <br>
+                <br>
+                <select name="keyword3">
+                    @if ($category1->keyword3 != 0)
+                    <option value="" disabled selected>{{$category1->keyword3}}</option>
+                    @else
+                    <option value="" disabled selected>Keyword3 (can be empty)</option>
+                    @endif
+                    @foreach ($keywords as $keyword)
+                        <option value="{{$keyword->id}}">{{$keyword->id}}</option>
+                    @endforeach
+                </select>
+                <br>
+                <br>
+                <select name="keyword4">
+                    @if ($category1->keyword4 != 0)
+                    <option value="" disabled selected>{{$category1->keyword4}}</option>
+                    @else
+                    <option value="" disabled selected>Keyword4 (can be empty)</option>
+                    @endif
+                    @foreach ($keywords as $keyword)
+                        <option value="{{$keyword->id}}">{{$keyword->id}}</option>
+                    @endforeach
+                </select>
+                <br>
+                <br>
+                <select name="keyword5">
+                    @if ($category1->keyword5 != 0)
+                    <option value="" disabled selected>{{$category1->keyword5}}</option>
+                    @else
+                    <option value="" disabled selected>Keyword5 (can be empty)</option>
+                    @endif
+                    @foreach ($keywords as $keyword)
+                        <option value="{{$keyword->id}}">{{$keyword->id}}</option>
+                    @endforeach
+                </select>
+                <br>
+                <br>
+                <input type="submit" value="Edit Category" id="catadd">
+            </form>
+        @endforeach
         <script>
             if (getCookie('theme') == null){
                 // alert("null");

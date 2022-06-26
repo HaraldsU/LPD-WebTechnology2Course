@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('landing');
 });
+
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -28,14 +29,21 @@ Route::get('/blog/{id}', [BlogController::class, 'index']);
 Route::get('/category', [BlogCategoryController::class, 'getData']);
 Route::get('/category/{id}', [BlogController::class, 'index2']);
 
-Route::resource('blog', BlogController::class, ['except'=>['index','create']]);
 Route::get('/createblog', [BlogController::class, 'create']);
 
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/blog/delete/{id}', [BlogController::class, 'destroy']);
+Route::get('/blog/edit/{id}', [BlogController::class, 'edit']);
+Route::post('/blog/search', [BlogController::class, 'search'])->name('bsearch');
 
-Route::resource('category', BlogCategoryController::class, ['except'=>['index','create']]);
 Route::get('/createcategory', [BlogCategoryController::class, 'create']);
 
 Route::get('/category/delete/{id}', [BlogCategoryController::class, 'destroy']);
+Route::get('/category/edit/{id}', [BlogCategoryController::class, 'edit']);
+Route::post('/category/search', [BlogCategoryController::class, 'search'])->name('csearch');
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('blog', BlogController::class, ['except'=>['index','create']]);
+Route::resource('category', BlogCategoryController::class, ['except'=>['index','create']]);

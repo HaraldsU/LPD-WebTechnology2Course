@@ -33,11 +33,14 @@
     <section id="second">
         <div class="right">
             <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
-            <form type="POST" action="{{url('/search')}}">
+            {{-- <form type="POST" action="{{url('/search')}}">
                 <input type="search" placeholder="Make a search" name="name">
                 <button type="Submit">Search</button>
-            </form>
+            </form> --}}
             <button onclick="showCategory()" id="blogc">Blog Categories</button>
+            @foreach ($blog as $blog1)
+                <button onclick="editBlog({{$blog1->id}})" id="blogedit">Edit</button>
+            @endforeach
             {{-- @if (Auth::check()) --}}
             @foreach ($blog as $blog1)
                 <button onclick="deleteBlog({{$blog1->id}})" id="blogdel">Delete</button>
@@ -51,6 +54,9 @@
         }
         function deleteBlog(blogID) {
             window.location.href = "/blog/delete/" + blogID;
+        }
+        function editBlog(blogID) {
+            window.location.href = "/blog/edit/" + blogID;
         }
     </script>
     <section id="third3">

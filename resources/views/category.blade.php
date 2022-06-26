@@ -1,3 +1,10 @@
+<script>
+    var perfEntries = performance.getEntriesByType("navigation");
+
+    if (perfEntries[0].type === "back_forward") {
+        location.reload(true);
+    }
+</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,6 +15,7 @@
     <meta name="keywords" content="keywords" />
     <link rel="stylesheet" href="<?php echo asset('css/landing.css')?>" type="text/css">
     <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
     <section id="first">
@@ -33,15 +41,32 @@
     <section id="second">
         <div class="right">
             <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
-            <form type="POST" action="{{url('/search')}}">
-                <input type="search" placeholder="Make a search" name="name">
-                <button type="Submit">Search</button>
+            <form class="sform" method="POST" action="{{route('csearch')}}">
+                @csrf
+                <input type="text" placeholder="Search Category" name="search">
+                <button type="submit">Search</button>
+                <input type="checkbox" name="keyword" id="keyword" required>
+                <label for="keyword">By Keyword</label>
+                <input type="checkbox" name="name" id="name" required>
+                <label for="name">By Name</label>
             </form>
+            <script>
+                $(function(){
+                    var requiredCheckboxes = $('.sform :checkbox[required]');
+                    requiredCheckboxes.change(function(){
+                        if(requiredCheckboxes.is(':checked')) {
+                            requiredCheckboxes.removeAttr('required');
+                        } else {
+                            requiredCheckboxes.attr('required', 'required');
+                        }
+                    });
+                });
+            </script>
             <button onclick="createCategory()" id="createcat">Create New Category</button>
         </div>
     </section>
     <section id="third3">
-        @foreach ($blogcategories->reverse() as $category)
+        @foreach ($blogcategories as $category)
             <div class="img1">
                 <h1 class="imgt">{{$category->id}}</h1>
                 <a onclick="showBlogs('{{$category->id}}')"><img id="imgc" class="image inverted" src="{{$category->link}}"></a>

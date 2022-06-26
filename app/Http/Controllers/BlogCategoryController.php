@@ -66,6 +66,67 @@ class BlogCategoryController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+        $blogs = collect();
+        // echo($blogs);
+        // echo("<br>");
+        if ($request->name != null and $request->keyword != null and $request->search != null){
+            // echo("test4");
+            $categories = DB::table('blogcategories')
+                ->where('id', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword1', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+            $blogs = [];
+            $i = 0;
+            foreach ($categories as $category){
+                $blogs[$i] = DB::table('blogs')->where('category_id', '=', $category->id);
+                $i++;
+            }
+        }
+        else if ($request->name != null and $request->search != null){
+            // echo("test3");
+            $categories = DB::table('blogcategories')->where('id', 'LIKE', '%'.$request->search.'%')->get();
+            // echo($categories);
+            foreach ($categories as $category){
+                $blog = DB::table('blogs')->where('category_id', '=', $category->id)->get();
+                // echo("<br>");
+                // echo($blog);
+                // echo("<br>");
+                if (count($blog) != null) $blogs->push($blog);
+            }
+        }
+        else if ($request->keyword != null and $request->search != null){
+            // echo("test2");
+            $categories = DB::table('blogcategories')
+                ->where('keyword1', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+            $blogs = [];
+            $i = 0;
+            foreach ($categories as $category){
+                $blogs[$i] = DB::table('blogs')->where('category_id', '=', $category->id);
+                $i++;
+            }
+        }
+        else{
+            // echo("test1");
+            $categories = [];
+            $blogs = [];
+        }
+
+        // echo($categories);
+        // echo("<br>");
+        // echo("<br>");
+        // echo($blogs);
+        return view('categorysearch')->with('categories', $categories)->with('blogs', $blogs);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -75,6 +136,10 @@ class BlogCategoryController extends Controller
     public function edit($id)
     {
         //
+        // dd("hello");
+        $keywords = Keyword::all();
+        $category = BlogCategory::where('id','=',$id)->get();
+        return view('editcategory')->with('keywords', $keywords)->with('category', $category);
     }
 
     /**
@@ -87,6 +152,18 @@ class BlogCategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $category = BlogCategory::find($id);
+        if ($request->input('id') != 0) $category->id = $request->input('id');
+        if ($request->input('link') != 0) $category->link = $request->input('link');
+        if ($request->input('keyword1') != 0) $category->keyword1 = $request->input('keyword1');
+        if ($request->input('keyword2') != 0) $category->keyword2 = $request->input('keyword2');
+        if ($request->input('keyword3') != 0) $category->keyword3 = $request->input('keyword3');
+        if ($request->input('keyword4') != 0) $category->keyword4 = $request->input('keyword4');
+        if ($request->input('keyword5') != 0) $category->keyword5 = $request->input('keyword5');
+
+        $category->update();
+
+        return redirect('/category');
     }
 
     /**

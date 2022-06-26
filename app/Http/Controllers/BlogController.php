@@ -77,6 +77,36 @@ class BlogController extends Controller
         //
     }
 
+    public function search(Request $request)
+    {
+
+        // dd($request->all());
+        if ($request->name != null and $request->keyword != null and $request->search != null){
+            $blogs = DB::table('blogs')
+                ->where('name', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword1', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+        }
+        else if ($request->name != null and $request->search != null){
+            $blogs = DB::table('blogs')->where('name', 'LIKE', '%'.$request->search.'%')->get();
+        }
+        else if ($request->keyword != null and $request->search != null){
+            $blogs = DB::table('blogs')
+                ->where('keyword1', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+        }
+        else{
+            $blogs = [];
+        }
+        return view('blogsearch', compact('blogs'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -86,6 +116,10 @@ class BlogController extends Controller
     public function edit($id)
     {
         //
+        $blog = Blog::where('id','=',$id)->get();
+        $keywords = Keyword::all();
+        $categories = BlogCategory::all();
+        return view('editblog')->with('keywords', $keywords)->with('categories', $categories)->with('blog', $blog);
     }
 
     /**
@@ -95,9 +129,24 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
         //
+        $blog = Blog::find($id);
+        if ($request->input('name') != 0) $blog->name = $request->input('name');
+        if ($request->input('content') != 0) $blog->content = $request->input('content');
+        if ($request->input('link') != 0) $blog->link = $request->input('link');
+        if ($request->input('keyword1') != 0) $blog->keyword1 = $request->input('keyword1');
+        if ($request->input('keyword2') != 0) $blog->keyword2 = $request->input('keyword2');
+        if ($request->input('keyword3') != 0) $blog->keyword3 = $request->input('keyword3');
+        if ($request->input('keyword4') != 0) $blog->keyword4 = $request->input('keyword4');
+        if ($request->input('keyword5') != 0) $blog->keyword5 = $request->input('keyword5');
+        if ($request->input('category_id') != 0) $blog->category_id = $request->input('category_id');
+
+        $blog->update();
+
+        return redirect('/blog/'.$id);
     }
 
     /**
