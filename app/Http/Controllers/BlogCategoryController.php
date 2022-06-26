@@ -68,7 +68,7 @@ class BlogCategoryController extends Controller
 
     public function search(Request $request)
     {
-        $blogs = collect();
+        // $blogs = collect();
         // echo($blogs);
         // echo("<br>");
         if ($request->name != null and $request->keyword != null and $request->search != null){
@@ -80,24 +80,24 @@ class BlogCategoryController extends Controller
                 ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
                 ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
                 ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
-            $blogs = [];
-            $i = 0;
-            foreach ($categories as $category){
-                $blogs[$i] = DB::table('blogs')->where('category_id', '=', $category->id);
-                $i++;
-            }
+            // $blogs = [];
+            // $i = 0;
+            // foreach ($categories as $category){
+            //     $blogs[$i] = DB::table('blogs')->where('category_id', '=', $category->id);
+            //     $i++;
+            // }
         }
         else if ($request->name != null and $request->search != null){
             // echo("test3");
             $categories = DB::table('blogcategories')->where('id', 'LIKE', '%'.$request->search.'%')->get();
             // echo($categories);
-            foreach ($categories as $category){
-                $blog = DB::table('blogs')->where('category_id', '=', $category->id)->get();
-                // echo("<br>");
-                // echo($blog);
-                // echo("<br>");
-                if (count($blog) != null) $blogs->push($blog);
-            }
+            // foreach ($categories as $category){
+            //     $blog = DB::table('blogs')->where('category_id', '=', $category->id)->get();
+            //     // echo("<br>");
+            //     // echo($blog);
+            //     // echo("<br>");
+            //     if (count($blog) != null) $blogs->push($blog);
+            // }
         }
         else if ($request->keyword != null and $request->search != null){
             // echo("test2");
@@ -107,24 +107,24 @@ class BlogCategoryController extends Controller
                 ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
                 ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
                 ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
-            $blogs = [];
-            $i = 0;
-            foreach ($categories as $category){
-                $blogs[$i] = DB::table('blogs')->where('category_id', '=', $category->id);
-                $i++;
-            }
+            // $blogs = [];
+            // $i = 0;
+            // foreach ($categories as $category){
+            //     $blogs[$i] = DB::table('blogs')->where('category_id', '=', $category->id);
+            //     $i++;
+            // }
         }
         else{
             // echo("test1");
             $categories = [];
-            $blogs = [];
+            // $blogs = [];
         }
 
         // echo($categories);
         // echo("<br>");
         // echo("<br>");
         // echo($blogs);
-        return view('categorysearch')->with('categories', $categories)->with('blogs', $blogs);
+        return view('categorysearch')->with('categories', $categories);
     }
 
     /**

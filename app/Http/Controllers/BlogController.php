@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\Keyword;
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
@@ -19,7 +21,16 @@ class BlogController extends Controller
     {
         //
         $blog = Blog::where('id','=',$id)->get();
-        return view('blog',['blog' => $blog]);
+        $comments = Comment::where('blog_id', '=', $id)->get();
+        $users = collect();
+        foreach ($comments as $comment){
+            // echo($comment->user);
+            $user = User::find($comment->user);
+            $users->push($user);
+        }
+        // echo($users);
+        // echo("hello");
+        return view('blog',['blog' => $blog, 'comments' => $comments, 'users' => $users]);
     }
 
     public function index2($id)
@@ -79,7 +90,6 @@ class BlogController extends Controller
 
     public function search(Request $request)
     {
-
         // dd($request->all());
         if ($request->name != null and $request->keyword != null and $request->search != null){
             $blogs = DB::table('blogs')
@@ -105,6 +115,43 @@ class BlogController extends Controller
             $blogs = [];
         }
         return view('blogsearch', compact('blogs'));
+    }
+
+    public function search1 (Request $request)
+    {
+        // echo("test");
+        if ($request->name != null and $request->keyword != null and $request->search != null){
+            $blogs = DB::table('blogs')
+                ->where('category_id', '=', $request->category)
+                ->where('name', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword1', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+        }
+        else if ($request->name != null and $request->search != null){
+            $blogs = DB::table('blogs')
+                ->where('category_id', '=', $request->category)
+                ->where('name', 'LIKE', '%'.$request->search.'%')->get();
+        }
+        else if ($request->keyword != null and $request->search != null){
+            $blogs = DB::table('blogs')
+                ->where('category_id', '=', $request->category)
+                ->where('keyword1', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
+                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+        }
+        else{
+            $blogs = [];
+        }
+        $category = $request->category;
+        // echo($category);
+        // echo("<br>");
+        // echo($blogs);
+        return view('blogsbycategsearch')->with('blogs', $blogs)->with('category', $category);
     }
 
     /**

@@ -18,6 +18,12 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('comment', 300);
+            $table->bigInteger('user')->unsigned()->index();
+            $table->integer('blog_id')->unsigned()->index();
+        });
+        Schema::table('comments', function (Blueprint $table) {
+            $table->foreign('user')->references('id')->on('users');
+            $table->foreign('blog_id')->references('id')->on('blogs');
         });
     }
 

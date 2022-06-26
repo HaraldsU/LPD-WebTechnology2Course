@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Keyword;
 use App\Models\BlogCategory;
 use App\Models\Blog;
+use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -164,6 +165,13 @@ class DatabaseSeeder extends Seeder
             'link' => 'https://content.presspage.com/uploads/2110/1920_coronavirus-covid19-cedars-sinai.jpg?10000',
             'keyword1' => 'Nature',
             'category_id' => 'Science'
+        ]);
+
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('admin123123'),
+            'isAdmin' => '1'
         ]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
