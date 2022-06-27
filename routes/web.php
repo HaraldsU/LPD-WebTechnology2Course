@@ -49,4 +49,4 @@ Route::post('/category/search', [BlogCategoryController::class, 'search'])->name
 
 Route::resource('blog', BlogController::class, ['except'=>['index','create']]);
 Route::resource('category', BlogCategoryController::class, ['except'=>['index','create']]);
-Route::resource('comment', CommentController::class, ['except'=>['index','create']]);
+Route::resource('comment', CommentController::class, ['except'=>['index','create']])->middleware('auth');

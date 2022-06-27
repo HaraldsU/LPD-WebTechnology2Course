@@ -8,6 +8,7 @@
     <meta name="keywords" content="keywords" />
     <link rel="stylesheet" href="<?php echo asset('css/landing.css')?>" type="text/css">
     <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
     <section id="first">
@@ -33,7 +34,18 @@
     </section>
     <section id="third3">
         <form method="POST" action="{{action([App\Http\Controllers\BlogController::class, 'store'])}}" id="blogform">
-            <input type="text" name="name" placeholder="Blog Name">
+            @csrf
+            <input class="cinp" type="text" name="name" placeholder="Blog Name" style="">
+            @if($errors->has('name'))
+                {{-- <div class="errorname">{{ $errors->first('name') }}</div> --}}
+                <script>
+                    $(document).ready(function(){
+                        error = {!! str_replace("'", "\'", json_encode($errors->first('name'))) !!};
+                        $('.cinp').attr("placeholder", error).val("").focus().blur();
+                        $('.cinp').addClass('cinpp').removeClass('cinp');
+                    });
+                </script>
+            @endif
             <br>
             <br>
             <textarea type="text" name="content" placeholder="Blog Content" id="content" class="content"></textarea>
@@ -98,6 +110,12 @@
             <br>
             <input type="submit" value="Make Blog" id="blogadd">
         </form>
+        <script>
+            $(document).on('click', 'input', function(){
+                $('.cinpp').attr("placeholder", "Blog Name").val("").focus().blur();
+                $('.cinpp').addClass('cinp').removeClass('cinpp');
+            });
+        </script>
         <script>
             if (getCookie('theme') == null){
                 // alert("null");

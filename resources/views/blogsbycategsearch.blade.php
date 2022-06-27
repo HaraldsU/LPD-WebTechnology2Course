@@ -39,6 +39,7 @@
             </div>
     </section>
     <section id="second">
+        {{-- {{$category}} --}}
         <div class="right">
             <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
             <form method="POST" action="{{route('bsearch1')}}" class="sform">

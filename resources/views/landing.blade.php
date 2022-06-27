@@ -80,91 +80,67 @@
             {{-- @php ($i++) --}}
             {{-- @endif --}}
         @endforeach
-        <script>
-            function createBlog() {
-                window.location.href = "/createblog";
-            }
-            function showBlog(blogID) {
-                window.location.href = "/blog/" + blogID;
-            }
-            function showCategory() {
-                window.location.href = "/category";
-            }
-        </script>
-        {{-- <script>
-            if(Cookies.get('isDark') == 'true'){
-                // alert("hello")
-                document.documentElement.classList.toggle('dark-mode');
-                var element = document.getElementById("bswitch");
-                if (element.innerHTML == "Light"){
-                    element.innerHTML = "Dark";
-                }
-                else element.innerHTML = "Light";
-                document.querySelectorAll('.inverted').forEach(result => {
-                        result.classList.toggle('invert');
-                });
-            }
-        </script> --}}
-        <script>
-            if (getCookie('theme') == null){
-                // alert("null");
-                setCookie('theme', 'light');
-           }
-            if (getCookie('theme') == "dark"){;
-                    var element = document.getElementById("bswitch");
-                    element.innerHTML = "Dark";
-                    document.documentElement.classList.toggle('dark-mode');
-                    document.querySelectorAll('.inverted').forEach(result => {
-                        result.classList.toggle('invert');
-                    });
-                     // alert(getCookie('theme'));
-            }
-            if (getCookie('theme') == "light"){
-                var element = document.getElementById("bswitch");
-                element.innerHTML = "Light";
-            }
-            let button = document.querySelector('.switch');
-            button.addEventListener('click', ()=>{
-                // alert("hello");
-                document.documentElement.classList.toggle('dark-mode');
-                var element = document.getElementById("bswitch");
-                if (getCookie('theme') == "light"){
-                    element.innerHTML = "Dark";
-                    setCookie('theme', 'dark');
-                    // alert(getCookie('theme'));
-                }
-                else if (getCookie('theme') == "dark"){
-                    element.innerHTML = "Light";
-                    setCookie('theme', 'light');
-                    // alert(getCookie('theme'));
-                }
-                document.querySelectorAll('.inverted').forEach(result => {
-                        result.classList.toggle('invert');
-                });
-            })
-            function setCookie(name, value) {
-                var d = new Date();
-                d.setTime(d.getTime() + (365*24*60*60*1000));
-                var expires = "expires=" + d.toUTCString();
-                document.cookie = name + "=" + value + ";" + expires + ";path=/";
-            }
-            function getCookie(name) {
-                function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-                var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-                return match ? match[1] : null;
-            }
-        </script>
-        {{-- <div id="img2">
-            <h1 class="imgt">Why is Minecraft so popular?</h1>
-            <img class="image inverted" src="https://store-images.s-microsoft.com/image/apps.608.13510798887677013.5c7792f0-b887-4250-8c4e-4617af9c4509.bcd1385a-ad15-450c-9ddd-3ee80c37121a?mode=scale&q=90&h=1080&w=1920">
-        </div>
-        <div id="img3">
-
-        </div>
-        <div id="img4">
-
-        </div> --}}
     </section>
+    <script>
+        function createBlog() {
+            window.location.href = "/createblog";
+        }
+        function showBlog(blogID) {
+            window.location.href = "/blog/" + blogID;
+        }
+        function showCategory() {
+            window.location.href = "/category";
+        }
+    </script>
+    <script>
+        if (getCookie('theme') == null){
+            // alert("null");
+            setCookie('theme', 'light');
+       }
+        if (getCookie('theme') == "dark"){;
+                var element = document.getElementById("bswitch");
+                element.innerHTML = "Dark";
+                document.documentElement.classList.toggle('dark-mode');
+                document.querySelectorAll('.inverted').forEach(result => {
+                    result.classList.toggle('invert');
+                });
+                 // alert(getCookie('theme'));
+        }
+        if (getCookie('theme') == "light"){
+            var element = document.getElementById("bswitch");
+            element.innerHTML = "Light";
+        }
+        let button = document.querySelector('.switch');
+        button.addEventListener('click', ()=>{
+            // alert("hello");
+            document.documentElement.classList.toggle('dark-mode');
+            var element = document.getElementById("bswitch");
+            if (getCookie('theme') == "light"){
+                element.innerHTML = "Dark";
+                setCookie('theme', 'dark');
+                // alert(getCookie('theme'));
+            }
+            else if (getCookie('theme') == "dark"){
+                element.innerHTML = "Light";
+                setCookie('theme', 'light');
+                // alert(getCookie('theme'));
+            }
+            document.querySelectorAll('.inverted').forEach(result => {
+                    result.classList.toggle('invert');
+            });
+        })
+        function setCookie(name, value) {
+            var d = new Date();
+            d.setTime(d.getTime() + (365*24*60*60*1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+        function getCookie(name) {
+            function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+            var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+            return match ? match[1] : null;
+        }
+    </script>
     {{-- <section id="fourth">
         <div>
 

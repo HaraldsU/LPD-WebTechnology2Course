@@ -9,6 +9,7 @@ use App\Models\Keyword;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class BlogController extends Controller
 {
@@ -63,6 +64,18 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         //
+        // echo("test");
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:1|max:100',
+            'content' => 'required|string|min:1|max:10000',
+            'link' => 'required|active_url|max:300'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/createblog')
+                        ->withErrors($validator);
+                        // ->withInput();
+        }
+
         $blog = new Blog();
         $blog->name = $request->name;
         $blog->content = $request->content;
@@ -121,30 +134,43 @@ class BlogController extends Controller
     {
         // echo("test");
         if ($request->name != null and $request->keyword != null and $request->search != null){
+            // echo("test1");
+            $search = $request->search;
+            $blogs = DB::table('blogs')
+                ->where('category_id', '=', $request->category)
+                ->where(function($q) use ($search){
+                    $q->orwhere('name', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword1', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword2', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword3', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword4', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword5', 'LIKE', '%'.$search.'%');
+                })
+                ->get();
+        }
+        else if ($request->name != null and $request->search != null){
+            // echo("test2");
             $blogs = DB::table('blogs')
                 ->where('category_id', '=', $request->category)
                 ->where('name', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword1', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
-        }
-        else if ($request->name != null and $request->search != null){
-            $blogs = DB::table('blogs')
-                ->where('category_id', '=', $request->category)
-                ->where('name', 'LIKE', '%'.$request->search.'%')->get();
+                ->get();
         }
         else if ($request->keyword != null and $request->search != null){
+            // echo("test3");
+            $search = $request->search;
             $blogs = DB::table('blogs')
                 ->where('category_id', '=', $request->category)
-                ->where('keyword1', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword2', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword3', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword4', 'LIKE', '%'.$request->search.'%')
-                ->orwhere('keyword5', 'LIKE', '%'.$request->search.'%')->get();
+                ->where(function($q) use ($search){
+                    $q->orwhere('keyword1', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword2', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword3', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword4', 'LIKE', '%'.$search.'%')
+                    ->orwhere('keyword5', 'LIKE', '%'.$search.'%');
+                })
+                ->get();
         }
         else{
+            // echo("test4");
             $blogs = [];
         }
         $category = $request->category;
@@ -180,6 +206,7 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         //
+        // echo("hello");
         $blog = Blog::find($id);
         if ($request->input('name') != 0) $blog->name = $request->input('name');
         if ($request->input('content') != 0) $blog->content = $request->input('content');
@@ -206,6 +233,8 @@ class BlogController extends Controller
     {
         //
         $blog = Blog::find($id);
+        $comments = Comment::where('blog_id', '=', $id);
+        $comments->delete();
         $blog->delete();
         return redirect('/');
     }

@@ -173,6 +173,18 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123123'),
             'isAdmin' => '1'
         ]);
+        User::create([
+            'name' => 'HaraldsU',
+            'email' => '11rembo11pvp@gmail.com',
+            'password' => bcrypt('haraldsu123'),
+            'isAdmin' => '0'
+        ]);
+        User::create([
+            'name' => 'longlonglonglonglonglonglonglonglonglonglonglonglonglonglong',
+            'email' => 'long@long.com',
+            'password' => bcrypt('longlong123'),
+            'isAdmin' => '0'
+        ]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

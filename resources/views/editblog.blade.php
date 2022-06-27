@@ -37,6 +37,8 @@
         @endforeach --}}
         @foreach ($blog as $blog1)
         <form method="POST" action="{{action([App\Http\Controllers\BlogController::class, 'update'], $blog1->id)}}" id="blogform">
+            @csrf
+            @method('PUT')
             <input type="text" name="name" placeholder="{{$blog1->name}}">
             <br>
             <br>
