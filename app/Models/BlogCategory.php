@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Blog;
 use App\Models\Keyword;
+use App\Models\User;
 
 class BlogCategory extends Model
 {
@@ -21,5 +22,9 @@ class BlogCategory extends Model
     public function Keyword()
     {
         return $this->belongsTo(Keyword::class, 'id');
+    }
+    public function Users()
+    {
+        return $this->belongsTo(User::class, 'id');
     }
 }

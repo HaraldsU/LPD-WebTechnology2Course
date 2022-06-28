@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('keyword5', 50)->nullable();
 
             $table->string('category_id', 100)->nullable();
+            $table->bigInteger('user_id')->unsigned()->index();
 
             $table->timestamps();
         });
@@ -37,6 +38,7 @@ return new class extends Migration
             $table->foreign('keyword4')->references('id')->on('keywords');
             $table->foreign('keyword5')->references('id')->on('keywords');
             $table->foreign('category_id')->references('id')->on('blogcategories');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

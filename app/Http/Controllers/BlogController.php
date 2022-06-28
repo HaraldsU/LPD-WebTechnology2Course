@@ -9,7 +9,9 @@ use App\Models\Keyword;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Validator;
+use Illuminate\Validation\ValidationException;
 
 class BlogController extends Controller
 {
@@ -86,6 +88,7 @@ class BlogController extends Controller
         $blog->keyword4 = $request->keyword4;
         $blog->keyword5 = $request->keyword5;
         $blog->category_id = $request->category_id;
+        $blog->user_id = Auth::id();
         $blog->save();
         return redirect('/');
     }
@@ -189,10 +192,19 @@ class BlogController extends Controller
     public function edit($id)
     {
         //
-        $blog = Blog::where('id','=',$id)->get();
-        $keywords = Keyword::all();
-        $categories = BlogCategory::all();
-        return view('editblog')->with('keywords', $keywords)->with('categories', $categories)->with('blog', $blog);
+        $blog = Blog::find($id);
+        $user = Auth::id();
+        $user1 = User::find($user);
+        if ($user == $blog->user_id or $user1->isAdmin == true){
+            $blog = Blog::where('id','=',$id)->get();
+            $keywords = Keyword::all();
+            $categories = BlogCategory::all();
+            return view('editblog')->with('keywords', $keywords)->with('categories', $categories)->with('blog', $blog);
+        }
+        else{
+            throw ValidationException::withMessages(['blogedit' => "Can't EDIT other user's blogs!"]);
+            return redirect('/blog/'.$id);
+        }
     }
 
     /**
@@ -207,6 +219,17 @@ class BlogController extends Controller
     {
         //
         // echo("hello");
+        $validator = Validator::make($request->all(), [
+            'name' => 'string|max:100|nullable',
+            'content' => 'string|max:10000|nullable',
+            'link' => 'active_url|max:300|nullable'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/blog/edit/'.$id)
+                        ->withErrors($validator);
+                        // ->withInput();
+        }
+
         $blog = Blog::find($id);
         if ($request->input('name') != 0) $blog->name = $request->input('name');
         if ($request->input('content') != 0) $blog->content = $request->input('content');
@@ -233,10 +256,18 @@ class BlogController extends Controller
     {
         //
         $blog = Blog::find($id);
-        $comments = Comment::where('blog_id', '=', $id);
-        $comments->delete();
-        $blog->delete();
-        return redirect('/');
+        $user = Auth::id();
+        $user1 = User::find($user);
+        if ($user == $blog->user_id or $user1->isAdmin == true){
+            $comments = Comment::where('blog_id', '=', $id);
+            $comments->delete();
+            $blog->delete();
+            return redirect('/');
+        }
+        else{
+            throw ValidationException::withMessages(['blogdel' => "Can't DELETE other user's blogs!"]);
+            return redirect('/blog/'.$id);
+        }
     }
 
     public function getData(){

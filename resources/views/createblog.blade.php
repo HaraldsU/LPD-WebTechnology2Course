@@ -14,6 +14,9 @@
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                @if (Auth::check())
+                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
                 <div class="login2">
                     @auth
                         <a href="{{ url('/logout') }}" id="logout">Logout</a>
@@ -35,23 +38,64 @@
     <section id="third3">
         <form method="POST" action="{{action([App\Http\Controllers\BlogController::class, 'store'])}}" id="blogform">
             @csrf
-            <input class="cinp" type="text" name="name" placeholder="Blog Name" style="">
+            {{-- @if ($errors->any())
+                <div class="danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif --}}
+            <input class="cinp" type="text" name="name" placeholder="Blog Name" id="name">
             @if($errors->has('name'))
-                {{-- <div class="errorname">{{ $errors->first('name') }}</div> --}}
                 <script>
                     $(document).ready(function(){
                         error = {!! str_replace("'", "\'", json_encode($errors->first('name'))) !!};
-                        $('.cinp').attr("placeholder", error).val("").focus().blur();
-                        $('.cinp').addClass('cinpp').removeClass('cinp');
+                        $('#name').attr("placeholder", error).val("").focus().blur();
+                        $('#name').addClass('cinpp').removeClass('cinp');
+                    });
+                    $(document).on('click', '#name', function(){
+                        $('#name').attr("placeholder", "Blog Name").val("").focus().blur();
+                        $('#name').addClass('cinp').removeClass('cinpp');
+                        $('#name').focus();
                     });
                 </script>
             @endif
             <br>
             <br>
-            <textarea type="text" name="content" placeholder="Blog Content" id="content" class="content"></textarea>
+            <textarea type="text" name="content" placeholder="Blog Content" id="content" class="cinp"></textarea>
+            @if($errors->has('content'))
+                <script>
+                    $(document).ready(function(){
+                        error = {!! str_replace("'", "\'", json_encode($errors->first('content'))) !!};
+                        $('#content').attr("placeholder", error).val("").focus().blur();
+                        $('#content').addClass('cinpp').removeClass('cinp');
+                    });
+                    $(document).on('click', '#content', function(){
+                        $('#content').attr("placeholder", "Blog Content").val("").focus().blur();
+                        $('#content').addClass('cinp').removeClass('cinpp');
+                        $('#content').focus();
+                    });
+                </script>
+            @endif
             <br>
             <br>
-            <input type="text" name="link" placeholder="Image Link">
+            <input type="text" name="link" placeholder="Image Link" id="link" class="cinp">
+            @if($errors->has('content'))
+                <script>
+                    $(document).ready(function(){
+                        error = {!! str_replace("'", "\'", json_encode($errors->first('link'))) !!};
+                        $('#link').attr("placeholder", error).val("").focus().blur();
+                        $('#link').addClass('cinpp').removeClass('cinp');
+                    });
+                    $(document).on('click', '#link', function(){
+                        $('#link').attr("placeholder", "Blog Content").val("").focus().blur();
+                        $('#link').addClass('cinp').removeClass('cinpp');
+                        $('#link').focus();
+                    });
+                </script>
+            @endif
             <br>
             <br>
             {{-- <input type="text" name="keyword1" placeholder="Keyword1 (can be empty)"> --}}
@@ -110,12 +154,6 @@
             <br>
             <input type="submit" value="Make Blog" id="blogadd">
         </form>
-        <script>
-            $(document).on('click', 'input', function(){
-                $('.cinpp').attr("placeholder", "Blog Name").val("").focus().blur();
-                $('.cinpp').addClass('cinp').removeClass('cinpp');
-            });
-        </script>
         <script>
             if (getCookie('theme') == null){
                 // alert("null");

@@ -21,6 +21,9 @@
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                @if (Auth::check())
+                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
                 {{-- <p id="lpd" class="login-text">©lpdhu21001</p> --}}
                 @if (Route::has('login'))
                 <div class="login2">
@@ -85,6 +88,13 @@
                 <a onclick="showBlogs('{{$category->id}}')"><img id="imgc" class="image inverted" src="{{$category->link}}"></a>
             </div>
         @endforeach
+        @if (count($categories) < 4)
+            <script>
+                $(document).ready(function(){
+                    $('.img1').addClass('img11').removeClass('img1');
+                });
+            </script>
+        @endif
         @else
         <p class="sno">Search found nothing :(</p>
         @endif
@@ -164,21 +174,6 @@
                 return match ? match[1] : null;
             }
         </script>
-        {{-- <div id="img2">
-            <h1 class="imgt">Why is Minecraft so popular?</h1>
-            <img class="image inverted" src="https://store-images.s-microsoft.com/image/apps.608.13510798887677013.5c7792f0-b887-4250-8c4e-4617af9c4509.bcd1385a-ad15-450c-9ddd-3ee80c37121a?mode=scale&q=90&h=1080&w=1920">
-        </div>
-        <div id="img3">
-
-        </div>
-        <div id="img4">
-
-        </div> --}}
     </section>
-    {{-- <section id="fourth">
-        <div>
-
-        </div>
-    </section> --}}
   </body>
 </html>

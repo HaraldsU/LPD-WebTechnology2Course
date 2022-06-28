@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\BlogCategory;
 use App\Models\Keyword;
 use App\Models\Comment;
+use App\Models\User;
 
 class Blog extends Model
 {
     use HasFactory;
     protected $table = 'blogs';
+    public $incrementing = false;
     public function Category()
     {
         return $this->belongsTo(BlogCategory::class, 'id');
@@ -24,5 +26,9 @@ class Blog extends Model
     public function Comments()
     {
         return $this->hasMany(Comment::class, 'id');
+    }
+    public function Users()
+    {
+        return $this->belongsTo(User::class, 'id');
     }
 }

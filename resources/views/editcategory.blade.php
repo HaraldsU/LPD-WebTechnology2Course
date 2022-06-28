@@ -8,11 +8,15 @@
     <meta name="keywords" content="keywords" />
     <link rel="stylesheet" href="<?php echo asset('css/landing.css')?>" type="text/css">
     <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                @if (Auth::check())
+                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
                 <div class="login2">
                     @auth
                         <a href="{{ url('/logout') }}" id="logout">Logout</a>
@@ -39,10 +43,49 @@
             <form method="POST" action="{{action([App\Http\Controllers\BlogCategoryController::class, 'update'], $category1->id)}}" id="catform">
                 @csrf
                 {{ method_field('PUT') }}
-                <input type="text" name="id" placeholder="{{$category1->id}}">
+                {{-- @if ($errors->any())
+                    <div class="danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif --}}
+                <input type="text" name="id" placeholder="{{$category1->id}}" id="name" class="cinp">
+                @if($errors->has('id'))
+                    <script>
+                        $(document).ready(function(){
+                            error = {!! str_replace("'", "\'", json_encode($errors->first('id'))) !!};
+                            $('#name').attr("placeholder", error).val("").focus().blur();
+                            $('#name').addClass('cinpp').removeClass('cinp');
+                        });
+                        $(document).on('click', '#name', function(){
+                            name = {!! str_replace("'", "\'", json_encode($category1->id)) !!}
+                            $('#name').attr("placeholder", name).val("").focus().blur();
+                            $('#name').addClass('cinp').removeClass('cinpp');
+                            $('#name').focus();
+                        });
+                    </script>
+                @endif
                 <br>
                 <br>
-                <input type="text" name="link" placeholder="{{$category1->link}}">
+                <input type="text" name="link" placeholder="{{$category1->link}}" id="link" class="cinp">
+                @if($errors->has('link'))
+                    <script>
+                        $(document).ready(function(){
+                            error = {!! str_replace("'", "\'", json_encode($errors->first('link'))) !!};
+                            $('#link').attr("placeholder", error).val("").focus().blur();
+                            $('#link').addClass('cinpp').removeClass('cinp');
+                        });
+                        $(document).on('click', '#link', function(){
+                            name = {!! str_replace("'", "\'", json_encode($category1->link)) !!}
+                            $('#link').attr("placeholder", name).val("").focus().blur();
+                            $('#link').addClass('cinp').removeClass('cinpp');
+                            $('#link').focus();
+                        });
+                    </script>
+                @endif
                 <br>
                 <br>
                 <select name="keyword1">

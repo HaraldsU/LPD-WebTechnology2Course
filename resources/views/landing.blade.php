@@ -22,6 +22,9 @@
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="#first"> Home </a>
+                @if (Auth::check())
+                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
                 {{-- <p id="lpd" class="login-text">©lpdhu21001</p> --}}
                 @if (Route::has('login'))
                 <div class="login2">
@@ -70,16 +73,19 @@
         </div>
     </section>
     <section id="third3">
-        {{-- @php ($i = 1) --}}
         @foreach ($blogs->reverse() as $blog)
-         {{-- @if ($i != 5) --}}
             <div class="img1">
                 <h1 class="imgt">{{$blog->name}}</h1>
                 <a onclick="showBlog({{$blog->id}})"><img id="imgc" class="image inverted" src="{{$blog->link}}"></a>
             </div>
-            {{-- @php ($i++) --}}
-            {{-- @endif --}}
         @endforeach
+        @if (count($blogs) < 4)
+            <script>
+                $(document).ready(function(){
+                    $('.img1').addClass('img11').removeClass('img1');
+                });
+            </script>
+        @endif
     </section>
     <script>
         function createBlog() {

@@ -14,6 +14,9 @@
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                @if (Auth::check())
+                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
                 {{-- <p id="lpd" class="login-text">©lpdhu21001</p> --}}
                 @if (Route::has('login'))
                 <div class="login2">
@@ -40,13 +43,25 @@
             </form> --}}
             <button onclick="showCategory()" id="blogc">Blog Categories</button>
             @foreach ($blog as $blog1)
-                <button onclick="editBlog({{$blog1->id}})" id="blogedit">Edit</button>
+                <button onclick="editBlog({{$blog1->id}})" id="blogedit" name="blogedit">Edit</button>
             @endforeach
-            {{-- @if (Auth::check()) --}}
+            <div class = "ddel">
+                @if($errors->has('blogedit'))
+                    @foreach ($errors->all() as $error)
+                        <p class="error-del">{{ $error }}</p>
+                    @endforeach
+                @endif
+            </div>
             @foreach ($blog as $blog1)
-                <button onclick="deleteBlog({{$blog1->id}})" id="blogdel">Delete</button>
+                <button onclick="deleteBlog({{$blog1->id}})" id="blogdel" name="blogdel">Delete</button>
             @endforeach
-            {{-- @endif --}}
+            <div class = "ddel">
+                @if($errors->has('blogdel'))
+                    @foreach ($errors->all() as $error)
+                        <p class="error-del">{{ $error }}</p>
+                    @endforeach
+                @endif
+            </div>
         </div>
     </section>
     <script>

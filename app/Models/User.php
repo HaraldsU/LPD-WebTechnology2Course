@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Comment;
+use App\Models\Blog;
+use App\Models\Category;
 
 class User extends Authenticatable
 {
@@ -30,6 +32,14 @@ class User extends Authenticatable
     public function Comment()
     {
         return $this->hasMany(Comment::class, 'id');
+    }
+    public function Blog()
+    {
+        return $this->hasMany(Blog::class, 'id');
+    }
+    public function Category()
+    {
+        return $this->hasMany(Category::class, 'id');
     }
 
     /**

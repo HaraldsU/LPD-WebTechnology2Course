@@ -21,6 +21,9 @@
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                @if (Auth::check())
+                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
                 @if (Route::has('login'))
                 <div class="login2">
                     @auth
@@ -68,25 +71,40 @@
             @foreach ($category as $category1)
                 <button onclick="editCategory('{{$category1->id}}')" id="catedit">Edit</button>
             @endforeach
+            <div class = "ddel">
+                @if($errors->has('categoryedit'))
+                    @foreach ($errors->all() as $error)
+                        <p class="error-del">{{ $error }}</p>
+                    @endforeach
+                @endif
+            </div>
             @foreach ($category as $category1)
                 <button onclick="deleteCategory('{{$category1->id}}')" id="catdel">Delete</button>
             @endforeach
+            <div class = "ddel">
+                @if($errors->has('categorydel'))
+                    @foreach ($errors->all() as $error)
+                        <p class="error-del">{{ $error }}</p>
+                    @endforeach
+                @endif
+            </div>
         </div>
     </section>
     <section id="third3">
         @if (count($blogs) > 0)
-        @php ($i = 1)
         @foreach ($blogs->reverse() as $blog)
-         @if ($i != 5)
-            {{-- {{$id}} --}}
             <div class="img1">
                 <h1 class="imgt">{{$blog->name}}</h1>
                 <a onclick="showBlog({{$blog->id}})"><img id="imgc" class="image inverted" src="{{$blog->link}}"></a>
             </div>
-            @php ($i++)
-            {{-- {{$i}} --}}
-            @endif
         @endforeach
+        @if (count($blogs) < 4)
+            <script>
+                $(document).ready(function(){
+                    $('.img1').addClass('img11').removeClass('img1');
+                });
+            </script>
+        @endif
         @else
         <p class="no">No blogs in this category yet :(</p>
         @endif
@@ -153,21 +171,6 @@
                 return match ? match[1] : null;
             }
         </script>
-        {{-- <div id="img2">
-            <h1 class="imgt">Why is Minecraft so popular?</h1>
-            <img class="image inverted" src="https://store-images.s-microsoft.com/image/apps.608.13510798887677013.5c7792f0-b887-4250-8c4e-4617af9c4509.bcd1385a-ad15-450c-9ddd-3ee80c37121a?mode=scale&q=90&h=1080&w=1920">
-        </div>
-        <div id="img3">
-
-        </div>
-        <div id="img4">
-
-        </div> --}}
     </section>
-    {{-- <section id="fourth">
-        <div>
-
-        </div>
-    </section> --}}
   </body>
 </html>

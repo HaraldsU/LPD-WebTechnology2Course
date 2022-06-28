@@ -52,32 +52,38 @@ class DatabaseSeeder extends Seeder
         BlogCategory::create([
             'id' => 'Gaming',
             'link' => 'https://mediacloud.kiplinger.com/image/private/s--X-WVjvBW--/f_auto,t_content-image-full-desktop@1/v1615575009/Investing/best-video-game-stocks.jpg',
-            'keyword1' => 'Computer'
+            'keyword1' => 'Computer',
+            'user_id' => '1'
         ]);
         BlogCategory::create([
             'id' => 'Politics',
             'link' => 'https://st2.depositphotos.com/1018728/6135/i/600/depositphotos_61350641-stock-photo-politician-at-press-conference.jpg',
-            'keyword1' => 'President'
+            'keyword1' => 'President',
+            'user_id' => '1'
         ]);
         BlogCategory::create([
             'id' => 'Travel',
             'link' => 'https://t4.ftcdn.net/jpg/02/80/82/81/360_F_280828158_ZZ2W8atYMHiSkLoDzxgDHNhdmXJ31jCR.jpg',
-            'keyword1' => 'Nature'
+            'keyword1' => 'Nature',
+            'user_id' => '1'
         ]);
         BlogCategory::create([
             'id' => 'Sports',
             'link' => 'https://thumbs.dreamstime.com/b/sports-tools-balls-shoes-ground-108686133.jpg',
-            'keyword1' => 'Sports'
+            'keyword1' => 'Sports',
+            'user_id' => '1'
         ]);
         BlogCategory::create([
             'id' => 'Science',
             'link' => 'https://www.meme-arsenal.com/memes/bf8d8e46853e253694c29662e16a2355.jpg',
             'keyword1' => 'Nature',
-            'keyword2' => 'Discovery'
+            'keyword2' => 'Discovery',
+            'user_id' => '1'
         ]);
         BlogCategory::create([
             'id' => 'Movies',
             'link' => 'https://images.moneycontrol.com/static-mcnews/2020/08/STOCK-MARKET-MOVIES-770x433.jpg',
+            'user_id' => '1'
         ]);
 
         Blog::create([
@@ -93,7 +99,8 @@ class DatabaseSeeder extends Seeder
             Cras at urna fermentum, iaculis sapien eget, gravida magna. Maecenas fringilla diam vitae laoreet finibus.',
             'link' => 'https://store-images.s-microsoft.com/image/apps.608.13510798887677013.5c7792f0-b887-4250-8c4e-4617af9c4509.bcd1385a-ad15-450c-9ddd-3ee80c37121a?mode=scale&q=90&h=1080&w=1920',
             'keyword1' => 'Computer',
-            'category_id' => 'Gaming'
+            'category_id' => 'Gaming',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => 'All presidents of the USA',
@@ -110,7 +117,8 @@ class DatabaseSeeder extends Seeder
             lorem vel purus luctus condimentum. Donec facilisis nulla vitae lectus scelerisque tristique. Nullam sagittis id purus sit
             amet vestibulum. Donec cursus scelerisque tincidunt. Vivamus ut egestas mauris.',
             'link' => 'https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/newscms/2022_24/3557695/220616-biden-marine-one-south-lawn-an.jpg',
-            'keyword1' => 'President'
+            'keyword1' => 'President',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => 'What is the healthiest diet?',
@@ -125,7 +133,8 @@ class DatabaseSeeder extends Seeder
             Proin a nisi gravida, dictum erat at, elementum elit. Mauris iaculis ut arcu eget faucibus. Integer accumsan sapien ultricies convallis venenatis. Cras quis mattis lorem. Duis aliquam sapien congue, rutrum augue sed, maximus urna. Ut et elit vitae tellus aliquam blandit eu a risus. Sed tincidunt vehicula nibh, ut dignissim augue.
             Sed finibus tempus mi, mollis tempor erat. Maecenas gravida gravida cursus. Donec sed convallis eros. Nulla non diam mauris. Mauris elementum eleifend elementum. Pellentesque molestie sagittis neque quis placerat. Cras quis orci tincidunt, placerat ipsum in, congue lorem. Nam id pretium enim, eu placerat purus. Vivamus ullamcorper odio urna, at varius nunc condimentum eget. In nisi nulla, posuere nec porttitor eget, vestibulum laoreet ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan est non augue vestibulum pulvinar. Class aptent taciti sociosqu a',
             'link' => 'https://media.istockphoto.com/photos/balanced-diet-food-background-picture-id1151799593?k=20&m=1151799593&s=612x612&w=0&h=jRs5hyc8u1QZ1hqL5IrPQTwyXqG_i2KGyYDlN7IbCzY=',
-            'category_id' => 'Science'
+            'category_id' => 'Science',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => 'How healthy is the gym?',
@@ -135,7 +144,8 @@ class DatabaseSeeder extends Seeder
             Nunc faucibus quam ex, gravida aliquam odio sodales sed. Aliquam ac hendrerit velit, eu blandit lorem. Aliquam lacinia nulla a pretium ultricies. Aenean quis neque eget odio fermentum lacinia. Curabitur euismod porta elit, eu dapibus nisl rutrum ut. Aliquam erat volutpat. Nam viverra placerat sem, non ullamcorper lectus tincidunt eu. Etiam tempor eleifend ultricies. Vestibulum ante elit, lobortis et diam vel, molestie bibendum velit. Vivamus dolor turpis, feugiat sed tincidunt at, maximus sed nisl. In non dui feugiat, interdum tortor sed, lacinia ex.',
             'link' => 'https://t4.ftcdn.net/jpg/03/17/72/47/360_F_317724775_qHtWjnT8YbRdFNIuq5PWsSYypRhOmalS.jpg',
             'keyword1' => 'Sports',
-            'category_id' => 'Sports'
+            'category_id' => 'Sports',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => "5 things you didn't know about cats",
@@ -145,26 +155,30 @@ class DatabaseSeeder extends Seeder
             Cras efficitur enim nec tincidunt cursus. Nunc rutrum nisi arcu, cursus tincidunt massa pharetra et. In eu scelerisque enim, non vulputate lacus. Aliquam erat volutpat. Aliquam sodales, sem vel volutpat pulvinar, sem mauris aliquam erat, ac hendrerit dolor risus et augue. Donec eget tristique justo. Ut sodales vestibulum leo, nec aliquam urna auctor tempus. Nunc ac hendrerit lectus. Duis tincidunt molestie urna vitae commodo. Mauris blandit erat lacus, et consequat nunc congue porttitor. Integer ac accumsan odio.
             Nullam euismod viverra magna, et maximus urna auctor ac. Integer ornare a ipsum et pretium. Sed pellentesque turpis quis porttitor posuere. Sed tortor risus, volutpat eget orci at, placerat ultrices urna. Praesent sagittis mi ac aliquam efficitur. Proin non erat tempor, interdum lorem et, rhoncus nisi. Nam vel purus et nunc pellentesque porta at non tellus. Proin eu dui viverra, pellentesque neque at, tristique lorem. Nunc vestibulum placerat vulputate. Sed facilisis in orci sed feugiat. In hendrerit, purus nec aliquet convallis, odio diam fermentum justo, ut lacinia neque neque vitae nibh. Maecenas auctor magna et erat imperdiet, eget cursus tortor suscipit. Etiam ut est eu elit scelerisque condimentum.',
             'link' => 'https://thumbs.dreamstime.com/b/group-cats-front-white-background-60530177.jpg',
-            'keyword1' => 'Nature'
+            'keyword1' => 'Nature',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => 'Why are Crypto prices taking a dive?',
             'content' => 'Sed eu convallis dui. Sed porta aliquam fermentum. Nam sit amet ullamcorper lorem. Suspendisse dictum commodo nunc vel elementum. Phasellus sit amet dolor non risus volutpat consequat in ac odio. Proin quam erat, pellentesque eleifend metus a, condimentum egestas massa. Sed in rutrum dui. Vestibulum sagittis hendrerit ultrices.',
             'link' => 'https://image.cnbcfm.com/api/v1/image/107069560-1654078537245-gettyimages-1235570446-porzycki-cryptocu210928_npIa0.jpeg?v=1654240198',
-            'keyword1' => 'Economics'
+            'keyword1' => 'Economics',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => 'Biggest musical artists 2022',
             'content' => 'Nunc maximus nisi ac erat lacinia, vitae convallis lorem bibendum. Quisque in libero eget velit sagittis luctus vel sit amet erat. Fusce porttitor nulla sit amet quam aliquet pellentesque. Integer accumsan dolor eget felis imperdiet pellentesque. Quisque ex nisi, varius ac dui a, tincidunt condimentum nunc. Fusce aliquet bibendum justo sed porttitor. Nam urna nulla, ornare ac eros posuere, viverra consequat lacus.',
             'link' => 'https://www.cleveland.com/resizer/iX-17fSQ-aO7KH-dVjT9n64ixIo=/1280x0/smart/advancelocal-adapter-image-uploads.s3.amazonaws.com/expo.advance.net/img/960b45d730/width2048/57e_collage1.jpeg',
-            'keyword1' => 'Music'
+            'keyword1' => 'Music',
+            'user_id' => '1'
         ]);
         Blog::create([
             'name' => 'How dangerous is COVID-19?',
             'content' => 'Curabitur ac sapien ac tellus ultrices blandit id id dolor. Suspendisse tincidunt ante quis nisi venenatis, nec auctor justo dictum. Vivamus id lorem placerat, interdum nunc sit amet, accumsan leo. Vestibulum consequat, sem sed consectetur imperdiet, sapien nisl semper odio, vitae consectetur enim mauris quis turpis. Aliquam erat volutpat. Mauris justo lacus, hendrerit pulvinar ex ut, efficitur faucibus lorem. Nunc ullamcorper diam id massa suscipit, vel condimentum est vestibulum. Fusce imperdiet, libero eu semper malesuada, tortor libero eleifend ante, nec varius eros nibh vitae ligula. Cras vehicula pretium sem in porta.',
             'link' => 'https://content.presspage.com/uploads/2110/1920_coronavirus-covid19-cedars-sinai.jpg?10000',
             'keyword1' => 'Nature',
-            'category_id' => 'Science'
+            'category_id' => 'Science',
+            'user_id' => '1'
         ]);
 
         User::create([

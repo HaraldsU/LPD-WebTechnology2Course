@@ -7,6 +7,10 @@ use App\Models\BlogCategory;
 use App\Models\Blog;
 use App\Models\Keyword;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
+use Validator;
 
 class BlogCategoryController extends Controller
 {
@@ -30,8 +34,16 @@ class BlogCategoryController extends Controller
     public function create()
     {
         //
-        $keywords = Keyword::all();
-        return view('createcategory')->with('keywords', $keywords);
+        $user = Auth::id();
+        $user1 = User::find($user);
+        if ($user1->isAdmin == true){
+            $keywords = Keyword::all();
+            return view('createcategory')->with('keywords', $keywords);
+        }
+        else{
+            throw ValidationException::withMessages(['categorycreate' => "Access FORBIDDEN (admin only)"]);
+            return redirect('/category');
+        }
     }
 
     /**
@@ -43,6 +55,16 @@ class BlogCategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|string|min:1|max:100',
+            'link' => 'required|active_url|max:300'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/createcategory')
+                        ->withErrors($validator);
+                        // ->withInput();
+        }
+
         $category = new BlogCategory();
         $category->id = $request->id;
         $category->link = $request->link;
@@ -51,6 +73,7 @@ class BlogCategoryController extends Controller
         $category->keyword3 = $request->keyword3;
         $category->keyword4 = $request->keyword4;
         $category->keyword5 = $request->keyword5;
+        $category->user_id = Auth::id();
         $category->save();
         return redirect('/category');
     }
@@ -136,10 +159,17 @@ class BlogCategoryController extends Controller
     public function edit($id)
     {
         //
-        // dd("hello");
-        $keywords = Keyword::all();
-        $category = BlogCategory::where('id','=',$id)->get();
-        return view('editcategory')->with('keywords', $keywords)->with('category', $category);
+        $user = Auth::id();
+        $user1 = User::find($user);
+        if ($user1->isAdmin == true){
+            $keywords = Keyword::all();
+            $category = BlogCategory::where('id','=',$id)->get();
+            return view('editcategory')->with('keywords', $keywords)->with('category', $category);
+        }
+        else{
+            throw ValidationException::withMessages(['categoryedit' => "Access FORBIDDEN (admin only)"]);
+            return redirect('/edit/'.$id);
+        }
     }
 
     /**
@@ -152,6 +182,16 @@ class BlogCategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'id' => 'string|max:100|nullable',
+            'link' => 'active_url|max:300|nullable'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/category/edit/'.$id)
+                        ->withErrors($validator);
+                        // ->withInput();
+        }
+
         $category = BlogCategory::find($id);
         if ($request->input('id') != 0) $category->id = $request->input('id');
         if ($request->input('link') != 0) $category->link = $request->input('link');
@@ -175,11 +215,19 @@ class BlogCategoryController extends Controller
     public function destroy($id)
     {
         //
-        $blog = Blog::where('category_id','=',$id);
-        $blog->delete();
-        $category = BlogCategory::find($id);
-        $category->delete();
-        return redirect('/category');
+        $user = Auth::id();
+        $user1 = User::find($user);
+        if ($user1->isAdmin == true){
+            $blog = Blog::where('category_id','=',$id);
+            $blog->delete();
+            $category = BlogCategory::find($id);
+            $category->delete();
+            return redirect('/category');
+        }
+        else{
+            throw ValidationException::withMessages(['categorydel' => "Access FORBIDDEN (admin only)"]);
+            return redirect('/category/'.$id);
+        }
     }
 
     public function getData(){
