@@ -11,7 +11,7 @@ use App\Models\Comment;
 use App\Models\Blog;
 use App\Models\Category;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 

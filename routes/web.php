@@ -21,8 +21,11 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes(['verify' => true]);
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes(['verify' => true]);
 
 Route::get('/', [BlogController::class, 'getData']);
 Route::get('/blog/{id}', [BlogController::class, 'index']);
@@ -39,14 +42,21 @@ Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->middleware('auth
 Route::post('/blog/search', [BlogController::class, 'search'])->name('bsearch');
 Route::post('/blogsbycateg/search', [BlogController::class, 'search1'])->name('bsearch1');
 
+
 Route::get('/createcategory', [BlogCategoryController::class, 'create'])->middleware('auth');
 
 Route::get('/category/delete/{id}', [BlogCategoryController::class, 'destroy'])->middleware('auth');
 Route::get('/category/edit/{id}', [BlogCategoryController::class, 'edit'])->middleware('auth');
 Route::post('/category/search', [BlogCategoryController::class, 'search'])->name('csearch');
 
+Route::get('/comment/delete/{id}', [CommentController::class, 'destroy'])->middleware('auth');
+
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('blog', BlogController::class, ['except'=>['index','create']]);
 Route::resource('category', BlogCategoryController::class, ['except'=>['index','create']]);
 Route::resource('comment', CommentController::class, ['except'=>['index','create']])->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

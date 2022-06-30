@@ -13,21 +13,40 @@
   <body>
     <section id="first">
             <div class="login">
-                <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}}</a>
                 @if (Auth::check())
-                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                    <p class="login-text" id="log-user">{{__('User')}}:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
+                @php
+                    $count = count(config('app.languages'));
+                    $i = 1;
+                @endphp
+                @if(count(config('app.languages')) > 1)
+                    <li class="language">
+                        <div>
+                            @foreach(config('app.languages') as $langLocale => $langName)
+                                <a class="lang-text" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}</a>
+                                @if ($count > $i)
+                                    <a class="lang-text">|</a>
+                                @endif
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
+                        </div>
+                    </li>
                 @endif
                 <div class="login2">
                     @auth
-                        <a href="{{ url('/logout') }}" id="logout">Logout</a>
+                        <a href="{{ url('/logout') }}" id="logout">{{__('Logout')}}</a>
                     @endauth
                 </div>
             </div>
     </section>
     <section id="second">
         <div class="right">
-            <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
-            <button onclick="showCategory()" id="blogc">Blog Categories</button>
+            <p id="switch">{{__('Theme')}}: <button id="bswitch" class="switch" tabindex="0">{{__('Dark')}}</button></p>
+            <button onclick="showCategory()" id="blogc">{{__('Blog Categories')}}</button>
             <script>
                 function showCategory() {
                     window.location.href = "/category";
@@ -47,7 +66,7 @@
                     </ul>
                 </div>
             @endif --}}
-            <input class="cinp" type="text" name="name" placeholder="Blog Name" id="name">
+            <input class="cinp" type="text" name="name" placeholder="{{__('Blog Name')}}" id="name">
             @if($errors->has('name'))
                 <script>
                     $(document).ready(function(){
@@ -56,7 +75,8 @@
                         $('#name').addClass('cinpp').removeClass('cinp');
                     });
                     $(document).on('click', '#name', function(){
-                        $('#name').attr("placeholder", "Blog Name").val("").focus().blur();
+                        var place = @json( __('Blog Name'));
+                        $('#name').attr("placeholder", place).val("").focus().blur();
                         $('#name').addClass('cinp').removeClass('cinpp');
                         $('#name').focus();
                     });
@@ -64,7 +84,7 @@
             @endif
             <br>
             <br>
-            <textarea type="text" name="content" placeholder="Blog Content" id="content" class="cinp"></textarea>
+            <textarea type="text" name="content" placeholder="{{__('Blog Content')}}" id="content" class="cinp"></textarea>
             @if($errors->has('content'))
                 <script>
                     $(document).ready(function(){
@@ -73,7 +93,8 @@
                         $('#content').addClass('cinpp').removeClass('cinp');
                     });
                     $(document).on('click', '#content', function(){
-                        $('#content').attr("placeholder", "Blog Content").val("").focus().blur();
+                        var place = @json( __('Blog Content'));
+                        $('#content').attr("placeholder", place).val("").focus().blur();
                         $('#content').addClass('cinp').removeClass('cinpp');
                         $('#content').focus();
                     });
@@ -81,7 +102,7 @@
             @endif
             <br>
             <br>
-            <input type="text" name="link" placeholder="Image Link" id="link" class="cinp">
+            <input type="text" name="link" placeholder="{{__('Image Link')}}" id="link" class="cinp">
             @if($errors->has('content'))
                 <script>
                     $(document).ready(function(){
@@ -90,7 +111,8 @@
                         $('#link').addClass('cinpp').removeClass('cinp');
                     });
                     $(document).on('click', '#link', function(){
-                        $('#link').attr("placeholder", "Blog Content").val("").focus().blur();
+                        var place = @json( __('Image Link'));
+                        $('#link').attr("placeholder", place).val("").focus().blur();
                         $('#link').addClass('cinp').removeClass('cinpp');
                         $('#link').focus();
                     });
@@ -104,7 +126,7 @@
             {{$keyword}}
             @endforeach --}}
             <select name="keyword1">
-                <option value="" disabled selected>Keyword1 (can be empty)</option>
+                <option value="" disabled selected>{{__('Keyword 1 (can be empty)')}}</option>
                 @foreach ($keywords as $keyword)
                     <option value="{{$keyword->id}}">{{$keyword->id}}</option>
                 @endforeach
@@ -112,7 +134,7 @@
             <br>
             <br>
             <select name="keyword2">
-                <option value="" disabled selected>Keyword2 (can be empty)</option>
+                <option value="" disabled selected>{{__('Keyword 2 (can be empty)')}}</option>
                 @foreach ($keywords as $keyword)
                     <option value="{{$keyword->id}}">{{$keyword->id}}</option>
                 @endforeach
@@ -120,7 +142,7 @@
             <br>
             <br>
             <select name="keyword3">
-                <option value="" disabled selected>Keyword3 (can be empty)</option>
+                <option value="" disabled selected>{{__('Keyword 3 (can be empty)')}}</option>
                 @foreach ($keywords as $keyword)
                     <option value="{{$keyword->id}}">{{$keyword->id}}</option>
                 @endforeach
@@ -128,7 +150,7 @@
             <br>
             <br>
             <select name="keyword4">
-                <option value="" disabled selected>Keyword4 (can be empty)</option>
+                <option value="" disabled selected>{{__('Keyword 4 (can be empty)')}}</option>
                 @foreach ($keywords as $keyword)
                     <option value="{{$keyword->id}}">{{$keyword->id}}</option>
                 @endforeach
@@ -136,7 +158,7 @@
             <br>
             <br>
             <select name="keyword5">
-                <option value="" disabled selected>Keyword5 (can be empty)</option>
+                <option value="" disabled selected>{{__('Keyword 5 (can be empty)')}}</option>
                 @foreach ($keywords as $keyword)
                     <option value="{{$keyword->id}}">{{$keyword->id}}</option>
                 @endforeach
@@ -145,14 +167,14 @@
             <br>
             {{-- <input type="text" name="category_id" placeholder="Blog Category (can be empty)"> --}}
             <select name="category_id">
-                <option value="" disabled selected>Blog Category (can be empty)</option>
+                <option value="" disabled selected>{{__('Blog Category (can be empty)')}}</option>
                 @foreach ($categories as $category)
                     <option value="{{$category->id}}">{{$category->id}}</option>
                 @endforeach
             </select>
             <br>
             <br>
-            <input type="submit" value="Make Blog" id="blogadd">
+            <input type="submit" value="{{__('Make Blog')}}" id="blogadd">
         </form>
         <script>
             if (getCookie('theme') == null){
@@ -161,7 +183,8 @@
            }
             if (getCookie('theme') == "dark"){;
                     var element = document.getElementById("bswitch");
-                    element.innerHTML = "Dark";
+                    var dark = @json( __('Dark'));
+                    element.innerHTML = dark;
                     document.documentElement.classList.toggle('dark-mode');
                     document.querySelectorAll('.inverted').forEach(result => {
                         result.classList.toggle('invert');
@@ -170,7 +193,8 @@
             }
             if (getCookie('theme') == "light"){
                 var element = document.getElementById("bswitch");
-                element.innerHTML = "Light";
+                var light = @json( __('Light'));
+                element.innerHTML = light;
             }
             let button = document.querySelector('.switch');
             button.addEventListener('click', ()=>{
@@ -178,12 +202,14 @@
                 document.documentElement.classList.toggle('dark-mode');
                 var element = document.getElementById("bswitch");
                 if (getCookie('theme') == "light"){
-                    element.innerHTML = "Dark";
+                    var dark = @json( __('Dark'));
+                    element.innerHTML = dark;
                     setCookie('theme', 'dark');
                     // alert(getCookie('theme'));
                 }
                 else if (getCookie('theme') == "dark"){
-                    element.innerHTML = "Light";
+                    var light = @json( __('Light'));
+                    element.innerHTML = light;
                     setCookie('theme', 'light');
                     // alert(getCookie('theme'));
                 }

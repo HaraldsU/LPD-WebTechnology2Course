@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Validator;
 
 class CommentController extends Controller
@@ -46,7 +48,7 @@ class CommentController extends Controller
         // $validated = $this->validate($request, $rules);
 
         $validator = Validator::make($request->all(), [
-            'comment' => 'min:1|max:280|string',
+            'comment' => 'min:1|max:300|string',
         ]);
 
         if ($validator->fails()) {
@@ -110,5 +112,20 @@ class CommentController extends Controller
     public function destroy($id)
     {
         //
+        $user = Auth::id();
+        $user1 = User::find($user);
+        $comment = Comment::find($id);
+        $id = $comment->blog_id;
+
+        if ($comment->user == $user1->id or $user1->isAdmin == true){
+            echo($comment);
+            echo($id);
+            $comment->delete();
+            return redirect('/blog/'.$id.'#end');
+        }
+        else {
+            return redirect('/blog/'.$id.'#end')->with('message', 'ACCESS DENIED!');
+            // return redirect('/blog/'.$id);
+        }
     }
 }

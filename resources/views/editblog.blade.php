@@ -13,21 +13,40 @@
   <body>
     <section id="first">
             <div class="login">
-                <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}} </a>
                 @if (Auth::check())
-                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                    <p class="login-text" id="log-user">{{__('User')}}:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
+                @php
+                    $count = count(config('app.languages'));
+                    $i = 1;
+                @endphp
+                @if(count(config('app.languages')) > 1)
+                    <li class="language">
+                        <div>
+                            @foreach(config('app.languages') as $langLocale => $langName)
+                                <a class="lang-text" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}</a>
+                                @if ($count > $i)
+                                    <a class="lang-text">|</a>
+                                @endif
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
+                        </div>
+                    </li>
                 @endif
                 <div class="login2">
                     @auth
-                        <a href="{{ url('/logout') }}" id="logout">Logout</a>
+                        <a class="login-text" href="{{ url('/logout') }}" id="logout">{{__('Logout')}}</a>
                     @endauth
                 </div>
             </div>
     </section>
     <section id="second">
         <div class="right">
-            <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
-            <button onclick="showCategory()" id="blogc">Blog Categories</button>
+            <p id="switch">{{__('Theme')}}: <button id="bswitch" class="switch" tabindex="0">{{__('Dark')}}</button></p>
+            <button onclick="showCategory()" id="blogc">{{__('Blog Categories')}}</button>
             <script>
                 function showCategory() {
                     window.location.href = "/category";
@@ -116,7 +135,7 @@
                     @if ($blog1->keyword1 != 0)
                     <option value="" disabled selected>{{$blog1->keyword1}}</option>
                     @else
-                    <option value="" disabled selected>Keyword1 (can be empty)</option>
+                    <option value="" disabled selected>{{__('Keyword 1 (can be empty)')}}</option>
                     @endif
                 {{-- @endforeach --}}
                 @foreach ($keywords as $keyword)
@@ -130,7 +149,7 @@
                     @if ($blog1->keyword2 != 0)
                     <option value="" disabled selected>{{$blog1->keyword2}}</option>
                     @else
-                    <option value="" disabled selected>Keyword2 (can be empty)</option>
+                    <option value="" disabled selected>{{__('Keyword 2 (can be empty)')}}</option>
                     @endif
                 {{-- @endforeach --}}
                 @foreach ($keywords as $keyword)
@@ -144,7 +163,7 @@
                     @if ($blog1->keyword3 != 0)
                     <option value="" disabled selected>{{$blog1->keyword3}}</option>
                     @else
-                    <option value="" disabled selected>Keyword3 (can be empty)</option>
+                    <option value="" disabled selected>{{__('Keyword 3 (can be empty)')}}</option>
                     @endif
                 {{-- @endforeach --}}
                 @foreach ($keywords as $keyword)
@@ -158,7 +177,7 @@
                     @if ($blog1->keyword4 != 0)
                     <option value="" disabled selected>{{$blog1->keyword4}}</option>
                     @else
-                    <option value="" disabled selected>Keyword4 (can be empty)</option>
+                    <option value="" disabled selected>{{__('Keyword 4 (can be empty)')}}</option>
                     @endif
                 {{-- @endforeach --}}
                 @foreach ($keywords as $keyword)
@@ -172,7 +191,7 @@
                     @if ($blog1->keyword5 != 0)
                     <option value="" disabled selected>{{$blog1->keyword5}}</option>
                     @else
-                    <option value="" disabled selected>Keyword5 (can be empty)</option>
+                    <option value="" disabled selected>{{__('Keyword 5 (can be empty)')}}</option>
                     @endif
                 {{-- @endforeach --}}
                 @foreach ($keywords as $keyword)
@@ -187,7 +206,7 @@
                     @if ($blog1->category_id != 0)
                     <option value="" disabled selected>{{$blog1->category_id}}</option>
                     @else
-                    <option value="" disabled selected>Blog Category (can be empty)</option>
+                    <option value="" disabled selected>{{__('Blog Category (can be empty)')}}</option>
                     @endif
                 {{-- @endforeach --}}
                 @foreach ($categories as $category)
@@ -196,7 +215,7 @@
             </select>
             <br>
             <br>
-            <input type="submit" value="Edit Blog" id="blogadd">
+            <input type="submit" value="{{__('Edit Blog')}}" id="blogadd">
         </form>
         @endforeach
         <script>
@@ -206,7 +225,8 @@
            }
             if (getCookie('theme') == "dark"){;
                     var element = document.getElementById("bswitch");
-                    element.innerHTML = "Dark";
+                    var dark = @json( __('Dark'));
+                    element.innerHTML = dark;
                     document.documentElement.classList.toggle('dark-mode');
                     document.querySelectorAll('.inverted').forEach(result => {
                         result.classList.toggle('invert');
@@ -215,7 +235,8 @@
             }
             if (getCookie('theme') == "light"){
                 var element = document.getElementById("bswitch");
-                element.innerHTML = "Light";
+                var light = @json( __('Light'));
+                element.innerHTML = light;
             }
             let button = document.querySelector('.switch');
             button.addEventListener('click', ()=>{
@@ -223,12 +244,14 @@
                 document.documentElement.classList.toggle('dark-mode');
                 var element = document.getElementById("bswitch");
                 if (getCookie('theme') == "light"){
-                    element.innerHTML = "Dark";
+                    var dark = @json( __('Dark'));
+                    element.innerHTML = dark;
                     setCookie('theme', 'dark');
                     // alert(getCookie('theme'));
                 }
                 else if (getCookie('theme') == "dark"){
-                    element.innerHTML = "Light";
+                    var light = @json( __('Light'));
+                    element.innerHTML = light;
                     setCookie('theme', 'light');
                     // alert(getCookie('theme'));
                 }

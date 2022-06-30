@@ -13,9 +13,28 @@
   <body>
     <section id="first">
             <div class="login">
-                <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}}</a>
                 @if (Auth::check())
                     <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
+                @php
+                    $count = count(config('app.languages'));
+                    $i = 1;
+                @endphp
+                @if(count(config('app.languages')) > 1)
+                    <li class="language">
+                        <div>
+                            @foreach(config('app.languages') as $langLocale => $langName)
+                                <a class="lang-text" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}</a>
+                                @if ($count > $i)
+                                    <a class="lang-text">|</a>
+                                @endif
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
+                        </div>
+                    </li>
                 @endif
                 <div class="login2">
                     @auth

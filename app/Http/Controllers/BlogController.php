@@ -23,17 +23,26 @@ class BlogController extends Controller
     public function index($id)
     {
         //
-        $blog = Blog::where('id','=',$id)->get();
+        $blog = Blog::find($id);
         $comments = Comment::where('blog_id', '=', $id)->get();
         $users = collect();
+        $author = User::find($blog->user_id);
         foreach ($comments as $comment){
-            // echo($comment->user);
             $user = User::find($comment->user);
             $users->push($user);
         }
+        $blog = Blog::where('id','=',$id)->get();
+        // echo($blog);
+        // echo("<br>");
+        // echo("<br>");
+        // echo($comments);
+        // echo("<br>");
+        // echo("<br>");
         // echo($users);
-        // echo("hello");
-        return view('blog',['blog' => $blog, 'comments' => $comments, 'users' => $users]);
+        // echo("<br>");
+        // echo("<br>");
+        // echo($author);
+        return view('blog',['blog' => $blog, 'comments' => $comments, 'users' => $users, 'author' => $author]);
     }
 
     public function index2($id)
@@ -202,7 +211,7 @@ class BlogController extends Controller
             return view('editblog')->with('keywords', $keywords)->with('categories', $categories)->with('blog', $blog);
         }
         else{
-            throw ValidationException::withMessages(['blogedit' => "Can't EDIT other user's blogs!"]);
+            throw ValidationException::withMessages(['blogedit' => __("Can't EDIT other user's blogs!")]);
             return redirect('/blog/'.$id);
         }
     }
@@ -265,7 +274,7 @@ class BlogController extends Controller
             return redirect('/');
         }
         else{
-            throw ValidationException::withMessages(['blogdel' => "Can't DELETE other user's blogs!"]);
+            throw ValidationException::withMessages(['blogdel' => __("Can't DELETE other user's blogs!")]);
             return redirect('/blog/'.$id);
         }
     }

@@ -20,21 +20,40 @@
   <body>
     <section id="first">
             <div class="login">
-                <a id="home" class="login-text" href="{{url('/')}}"> Home </a>
+                <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}}</a>
                 @if (Auth::check())
-                    <p class="login-text" id="log-user">User:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                    <p class="login-text" id="log-user">{{__('User')}}:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                @endif
+                @php
+                    $count = count(config('app.languages'));
+                    $i = 1;
+                @endphp
+                @if(count(config('app.languages')) > 1)
+                    <li class="language">
+                        <div>
+                            @foreach(config('app.languages') as $langLocale => $langName)
+                                <a class="lang-text" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}</a>
+                                @if ($count > $i)
+                                    <a class="lang-text">|</a>
+                                @endif
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
+                        </div>
+                    </li>
                 @endif
                 {{-- <p id="lpd" class="login-text">©lpdhu21001</p> --}}
                 @if (Route::has('login'))
                 <div class="login2">
                     @auth
                         {{-- <a href="{{ url('/home') }}" class="login-text">Home</a> --}}
-                        <a href="{{ url('/logout') }}" id="logout">Logout</a>
+                        <a href="{{ url('/logout') }}" id="logout">{{__('Logout')}}</a>
                     @else
-                        <a href="{{ route('login') }}" class="login-text">Log in</a>
+                        <a href="{{ route('login') }}" class="login-text">{{__('Log in')}}</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="login-text">Register</a>
+                            <a href="{{ route('register') }}" class="login-text">{{__('Register')}}</a>
                         @endif
                      @endauth
                 </div>
@@ -43,15 +62,15 @@
     </section>
     <section id="second">
         <div class="right">
-            <p id="switch">Theme: <button id="bswitch" class="switch" tabindex="0">Dark</button></p>
+            <p id="switch">{{__('Theme')}}: <button id="bswitch" class="switch" tabindex="0">{{__('Dark')}}</button></p>
             <form class="sform" method="POST" action="{{route('csearch')}}">
                 @csrf
-                <input type="text" placeholder="Search Category" name="search">
-                <button type="submit">Search</button>
+                <input type="text" placeholder="{{__('Search Category')}}" name="search">
+                <button type="submit">{{__('Search')}}</button>
                 <input type="checkbox" name="keyword" id="keyword" required>
-                <label for="keyword">By Keyword</label>
+                <label for="keyword">{{__('By Keyword')}}</label>
                 <input type="checkbox" name="name" id="name" required>
-                <label for="name">By Name</label>
+                <label for="name">{{__('By Name')}}</label>
             </form>
             <script>
                 $(function(){
@@ -65,7 +84,7 @@
                     });
                 });
             </script>
-            <button onclick="createCategory()" id="createcat">Create New Category</button>
+            <button onclick="createCategory()" id="createcat">{{__('Create New Category')}}</button>
             <div class = "ddel">
                 @if($errors->has('categorycreate'))
                     @foreach ($errors->all() as $error)
@@ -106,7 +125,8 @@
            }
             if (getCookie('theme') == "dark"){;
                     var element = document.getElementById("bswitch");
-                    element.innerHTML = "Dark";
+                    var dark = @json( __('Dark'));
+                    element.innerHTML = dark;
                     document.documentElement.classList.toggle('dark-mode');
                     document.querySelectorAll('.inverted').forEach(result => {
                         result.classList.toggle('invert');
@@ -115,7 +135,8 @@
             }
             if (getCookie('theme') == "light"){
                 var element = document.getElementById("bswitch");
-                element.innerHTML = "Light";
+                var light = @json( __('Light'));
+                element.innerHTML = light;
             }
             let button = document.querySelector('.switch');
             button.addEventListener('click', ()=>{
@@ -123,12 +144,14 @@
                 document.documentElement.classList.toggle('dark-mode');
                 var element = document.getElementById("bswitch");
                 if (getCookie('theme') == "light"){
-                    element.innerHTML = "Dark";
+                    var dark = @json( __('Dark'));
+                    element.innerHTML = dark;
                     setCookie('theme', 'dark');
                     // alert(getCookie('theme'));
                 }
                 else if (getCookie('theme') == "dark"){
-                    element.innerHTML = "Light";
+                    var light = @json( __('Light'));
+                    element.innerHTML = light;
                     setCookie('theme', 'light');
                     // alert(getCookie('theme'));
                 }

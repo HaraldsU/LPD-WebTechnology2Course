@@ -194,7 +194,7 @@ class DatabaseSeeder extends Seeder
             'isAdmin' => '0'
         ]);
         User::create([
-            'name' => 'longlonglonglonglonglonglonglonglonglonglonglonglonglonglong',
+            'name' => 'My Name Is Very Long For Testing',
             'email' => 'long@long.com',
             'password' => bcrypt('longlong123'),
             'isAdmin' => '0'

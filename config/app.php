@@ -97,6 +97,11 @@ return [
 
     'fallback_locale' => 'en',
 
+    'languages' => [
+        'en' => 'English',
+        'lv' => 'Laviešu',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

@@ -34,6 +34,7 @@ class BlogCategoryController extends Controller
     public function create()
     {
         //
+        // echo("hello");
         $user = Auth::id();
         $user1 = User::find($user);
         if ($user1->isAdmin == true){
@@ -41,8 +42,8 @@ class BlogCategoryController extends Controller
             return view('createcategory')->with('keywords', $keywords);
         }
         else{
-            throw ValidationException::withMessages(['categorycreate' => "Access FORBIDDEN (admin only)"]);
-            return redirect('/category');
+            throw ValidationException::withMessages(['categorycreate' => __("Access FORBIDDEN (admin only)")]);
+            return redirect()::back();
         }
     }
 
@@ -167,7 +168,7 @@ class BlogCategoryController extends Controller
             return view('editcategory')->with('keywords', $keywords)->with('category', $category);
         }
         else{
-            throw ValidationException::withMessages(['categoryedit' => "Access FORBIDDEN (admin only)"]);
+            throw ValidationException::withMessages(['categoryedit' => __("Access FORBIDDEN (admin only)")]);
             return redirect('/edit/'.$id);
         }
     }
@@ -225,7 +226,7 @@ class BlogCategoryController extends Controller
             return redirect('/category');
         }
         else{
-            throw ValidationException::withMessages(['categorydel' => "Access FORBIDDEN (admin only)"]);
+            throw ValidationException::withMessages(['categorydel' => __("Access FORBIDDEN (admin only)")]);
             return redirect('/category/'.$id);
         }
     }

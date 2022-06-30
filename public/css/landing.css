@@ -1,23 +1,15 @@
-@font-face{
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face{
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-stretch: 100%;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/opensans/v27/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVI.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 html, body, #body2
 {
     min-height: 100%;
+}
+body{
+    font-family: 'Roboto', 'Open Sans';
+    font-size: 14px;
+    margin: 0;
+	padding: 0;
+    background-color: gainsboro;
 }
 .img1{
     display: inline-block;
@@ -47,6 +39,12 @@ html, body, #body2
 } */
 #third3 div{
     padding-top: 10px;
+}
+.bloginfo{
+    text-align: left;
+    margin-left: 40px;
+    margin-top: 20px;
+    line-height: 5px;
 }
 /* #third3 div:not(:first-child){
     padding-top: 10px;
@@ -91,13 +89,6 @@ a{
     opacity: 100%;
     box-shadow: 0px 5px 15px gray;
 }
-body{
-    font-family: 'Roboto', 'Open Sans';
-    font-size: 14px;
-    margin: 0;
-	padding: 0;
-    background-color: gainsboro;
-}
 #first{
     height: 7vh;
 }
@@ -105,6 +96,21 @@ body{
     color: black;
     text-decoration: none;
     margin-left: 20px;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+.language{
+    margin-top: 1.25px;
+}
+.lang-text{
+    color: black;
+    text-decoration: none;
+}
+.language a{
+    margin-right: 5px;
+}
+.language a:hover{
+    font-weight: bold;
 }
 .login{
     text-align: right;
@@ -114,20 +120,29 @@ body{
     align-items: center;
     width: 100%;
     height: 7vh;
-    z-index: 100;
+    z-index: 1000;
     background-color: white;
     box-shadow: 0px 0px 2px 0px;
 }
 .login2{
+    margin-top: 3px;
     width: 89%;
     height: 50%;
     margin-right: 88px;
+}
+#validate{
+    padding-top: 50px;
+    margin-top: -50px;
 }
 #home{
     display: flex;
     justify-content: left;
     align-items: center;
-    margin-left: 37px;
+    padding-left: 20px;
+    margin-left: 25px;
+    padding-right: 20px;
+    margin-bottom: 10px;
+    width: 50px;
 }
 #second{
     height: 87.05%;
@@ -137,6 +152,13 @@ body{
     background-color: rgb(248, 246, 246);
     margin-top: 20px;
     box-shadow: 0px 0px 2px 0px;
+}
+.language{
+    position: absolute;
+    top: 28%;
+    left: 75%;
+    width: 80px;
+    list-style: none;
 }
 .right{
     margin-left: 10px;
@@ -178,7 +200,7 @@ body{
 .imgtext{
     text-align: center;
     margin-left: 40px;
-    margin-top: 65px;
+    margin-top: 26px;
 }
 #pimg{
     width: 100px;
@@ -187,20 +209,33 @@ body{
 }
 #pname{
     margin-top: 0px;
+    margin-bottom: 5px;
     width:100px;
     word-wrap:break-word;
+}
+#comment-time{
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+    width: 100px;
 }
 .usercomment{
     background-color: white;
     width: 560px;
     margin-left: 20px;
     margin-top: 26px;
-    box-shadow: 0px 0px 2px 0px;
+    border-style: solid;
+    border-width: 1.5px;
+    border-radius: 2px;
+    /* box-shadow: 0px 0px 2px 0px; */
     z-index: 10;
     height: 200px;;
 }
 .comtext{
     margin-left: 15px;
+    margin-right: 15px;
+    line-height: 25px;
+    word-wrap: break-word;
 }
 #makecom{
     margin: 0;
@@ -218,7 +253,7 @@ body{
     transform: translate(-50%, -50%);
     z-index: 100;
     color: red;
-    opacity: 60%;
+    /* opacity: 60%; */
     pointer-events: none;
 }
 #cbox{
@@ -233,9 +268,26 @@ body{
 #cadd{
     margin: 0;
     position: absolute;
-    top: 81.5%;
+    top: 73.1%;
     left: 88.525%;
+    width: 103.4px;
     transform: translate(-50%, -50%);
+}
+#cadd1{
+    margin: 0;
+    position: absolute;
+    top: 87.3%;
+    left: 87.6%;
+    transform: translate(-50%, -50%);
+}
+#fcom .comments:first-of-type div:last-of-type input{
+    margin: 0;
+    position: absolute;
+    top: 87.5%;
+    left: 87.6%;
+    width: 116px;
+    transform: translate(-50%, -50%);
+    /* color: blue; */
 }
 /* #fourth{
     background-color: rgb(248, 246, 246);
@@ -267,13 +319,13 @@ body{
 #blogc{
     margin-top: 15px;
     position: absolute;
-    margin-left: 58px;
-    width: 116px;
+    margin-left: 50px;
+    width: 125px;
 }
 #catc{
     margin-top: 13px;
     margin-left: 45px;
-    width: 143.4px;
+    width: 151.5px;
     display: table-cell;
     vertical-align: middle;
 }
@@ -288,7 +340,7 @@ body{
 #blogp{
     display: flex;
     text-align: justify;
-    margin: 20px 40px 10px 40px;
+    margin: 40px 40px 10px 40px;
     line-height: 35px;
 }
 #blogi{
@@ -315,7 +367,8 @@ body{
 }
 #createb{
     position: absolute;
-    margin-left: 58.5px;
+    width: 125px;
+    margin-left: 50px;
     margin-top: 50px;
 }
 #blogform{
@@ -337,9 +390,13 @@ body{
     height: 60px;
 }
 #logout{
+    position: relative;
     color: black;
     text-decoration: none;
     margin-right: 35px;
+    margin-top: 30px;
+    padding: 0;
+    margin-bottom: 0;
 }
 #log-user{
     white-space: nowrap;
@@ -362,22 +419,22 @@ body{
 #blogedit{
     /* display: flex; */
     margin-top: 50px;
-    margin-left: 58.75px;
-    width: 115.5px;
+    margin-left: 50px;
+    width: 125px;
     display: table-cell;
     vertical-align: middle;
 }
 #catdel{
     margin-top: 14px;
-    margin-left: 58.5px;
-    width: 115px;
+    margin-left: 50px;
+    width: 125px;
     display: table-cell;
     vertical-align: middle;
 }
 #catedit{
     margin-top: 50px;
-    margin-left: 58.7px;
-    width: 115px;
+    margin-left: 50px;
+    width: 125px;
     display: table-cell;
     vertical-align: middle;
 }
@@ -391,8 +448,8 @@ body{
 }
 #blogdel{
     margin-top: 13px;
-    margin-left: 58.75px;
-    width: 115.5px;
+    margin-left: 50px;
+    width: 125px;
 }
 .ddel{
     margin: 0;
