@@ -104,61 +104,6 @@
             <p id="blogp">{!!nl2br($blog1->content)!!}</p>
         </div>
         @endforeach
-        <script>
-            if (getCookie('theme') == null){
-                // alert("null");
-                setCookie('theme', 'light');
-           }
-            if (getCookie('theme') == "dark"){;
-                    var element = document.getElementById("bswitch");
-                    var dark = @json( __('Dark'));
-                    element.innerHTML = dark;
-                    document.documentElement.classList.toggle('dark-mode');
-                    document.querySelectorAll('.inverted').forEach(result => {
-                        result.classList.toggle('invert');
-                    });
-                     // alert(getCookie('theme'));
-            }
-            if (getCookie('theme') == "light"){
-                var element = document.getElementById("bswitch");
-                var light = @json( __('Light'));
-                element.innerHTML = light;
-            }
-            let button = document.querySelector('.switch');
-            button.addEventListener('click', ()=>{
-                // alert("hello");
-                document.documentElement.classList.toggle('dark-mode');
-                var element = document.getElementById("bswitch");
-                if (getCookie('theme') == "light"){
-                    var dark = @json( __('Dark'));
-                    element.innerHTML = dark;
-                    setCookie('theme', 'dark');
-                    // alert(getCookie('theme'));
-                }
-                else if (getCookie('theme') == "dark"){
-                    var light = @json( __('Light'));
-                    element.innerHTML = light;
-                    setCookie('theme', 'light');
-                    // alert(getCookie('theme'));
-                }
-                document.querySelectorAll('.inverted').forEach(result => {
-                        result.classList.toggle('invert');
-                });
-            })
-            function setCookie(name, value) {
-                var d = new Date();
-                d.setTime(d.getTime() + (365*24*60*60*1000));
-                var expires = "expires=" + d.toUTCString();
-                document.cookie = name + "=" + value + ";" + expires + ";path=/";
-            }
-            function getCookie(name) {
-                function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-                var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-                return match ? match[1] : null;
-            }
-        </script>
-        {{-- {{$blog->id}} --}}
-        {{-- <h1 class="imgt">{{$blog->name}}</h1> --}}
     </section>
     <section id="validate">
     </section>
@@ -203,8 +148,8 @@
         <section class="comments">
             <div class="imgtext">
                 @foreach ($users as $user)
-                <img id="pimg" class="image inverted" src='{{url('storage/images/'.$user->file_path)}}'>
                 @if ($comment->user == $user->id)
+                <img id="pimg" class="image inverted" src='{{url('storage/images/'.$user->file_path)}}'>
                 <h4 id="pname">{{$user->name}}</h4>
                 <p id="comment-time">{{$comment->created_at->format('d/m/y H:i');}}</p>
                 @break
@@ -231,6 +176,59 @@
             }
         </script>
     </section>
+    <script>
+        if (getCookie('theme') == null){
+            // alert("null");
+            setCookie('theme', 'light');
+       }
+        if (getCookie('theme') == "dark"){;
+                var element = document.getElementById("bswitch");
+                var dark = @json( __('Dark'));
+                element.innerHTML = dark;
+                document.documentElement.classList.toggle('dark-mode');
+                document.querySelectorAll('.inverted').forEach(result => {
+                    result.classList.toggle('invert');
+                });
+                 // alert(getCookie('theme'));
+        }
+        if (getCookie('theme') == "light"){
+            var element = document.getElementById("bswitch");
+            var light = @json( __('Light'));
+            element.innerHTML = light;
+        }
+        let button = document.querySelector('.switch');
+        button.addEventListener('click', ()=>{
+            // alert("hello");
+            document.documentElement.classList.toggle('dark-mode');
+            var element = document.getElementById("bswitch");
+            if (getCookie('theme') == "light"){
+                var dark = @json( __('Dark'));
+                element.innerHTML = dark;
+                setCookie('theme', 'dark');
+                // alert(getCookie('theme'));
+            }
+            else if (getCookie('theme') == "dark"){
+                var light = @json( __('Light'));
+                element.innerHTML = light;
+                setCookie('theme', 'light');
+                // alert(getCookie('theme'));
+            }
+            document.querySelectorAll('.inverted').forEach(result => {
+                    result.classList.toggle('invert');
+            });
+        })
+        function setCookie(name, value) {
+            var d = new Date();
+            d.setTime(d.getTime() + (365*24*60*60*1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+        function getCookie(name) {
+            function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+            var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+            return match ? match[1] : null;
+        }
+    </script>
     <section id='end'></section>
   </body>
 </html>
