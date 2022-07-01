@@ -1,11 +1,3 @@
-<script>
-    var perfEntries = performance.getEntriesByType("navigation");
-
-    if (perfEntries[0].type === "back_forward") {
-        location.reload(true);
-    }
-</script>
-{{-- landing file --}}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,11 +11,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
+    <script>
+        var perfEntries = performance.getEntriesByType("navigation");
+
+        if (perfEntries[0].type === "back_forward") {
+            location.reload(true);
+        }
+    </script>
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="#first"> {{__('Home')}} </a>
                 @if (Auth::check())
-                    <p class="login-text" id="log-user">{{__('User')}}:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                    <p class="login-text" id="log-user"><a href="{{url('/user/'.Auth::id())}}">{{__('User')}}</a>:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
                 @endif
                 @php
                     $count = count(config('app.languages'));
@@ -50,16 +49,22 @@
                     @auth
                         <a href="{{ url('/logout') }}" id="logout">{{__('Logout')}}</a>
                     @else
-                        <a href="{{ route('login') }}" class="login-text">{{__('Log in')}}</a>
+                        <a href="{{ route('login') }}" id="login" class="login-text">{{__('Log in')}}</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="login-text">{{__('Register')}}</a>
+                            <a href="{{ route('register') }}" id="register" class="login-text">{{__('Register')}}</a>
                         @endif
                      @endauth
                 </div>
                 @endif
             </div>
     </section>
+    @if (session()->has('message'))
+        <script>
+            error = {!! str_replace("'", "\'", json_encode(session('message'))) !!};
+            alert(error);
+        </script>
+    @endif
     <section id="second">
         <div class="right">
             <p id="switch">{{__('Theme')}}: <button id="bswitch" class="switch" tabindex="0">{{__('Dark')}}</button></p>
@@ -89,6 +94,14 @@
             {{-- @if (Auth::check()) --}}
             <button onclick="createBlog()" id="createb">{{__('Create New Blog')}}</button>
             {{-- @endif --}}
+            @if (!Auth::guest())
+                @php
+                    $user = Auth::user();
+                @endphp
+                @if ($user->isAdmin == true)
+                <button onclick="keywords()" id="createkey">{{__('Keywords')}}</button>
+                @endif
+            @endif
         </div>
     </section>
     <section id="third3">
@@ -115,6 +128,9 @@
         }
         function showCategory() {
             window.location.href = "/category";
+        }
+        function keywords() {
+            window.location.href = "/keywords";
         }
     </script>
     <script>

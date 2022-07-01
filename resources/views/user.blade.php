@@ -11,13 +11,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
-    <script>
-        var perfEntries = performance.getEntriesByType("navigation");
-
-        if (perfEntries[0].type === "back_forward") {
-            location.reload(true);
-        }
-    </script>
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}}</a>
@@ -43,98 +36,43 @@
                         </div>
                     </li>
                 @endif
-                {{-- <p id="lpd" class="login-text">©lpdhu21001</p> --}}
-                @if (Route::has('login'))
                 <div class="login2">
                     @auth
                         <a href="{{ url('/logout') }}" id="logout">{{__('Logout')}}</a>
-                    @else
-                        <a href="{{ route('login') }}" class="login-text">{{__('Log in')}}</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="login-text">{{__('Register')}}</a>
-                        @endif
-                     @endauth
+                    @endauth
                 </div>
-                @endif
             </div>
     </section>
     <section id="second">
         <div class="right">
             <p id="switch">{{__('Theme')}}: <button id="bswitch" class="switch" tabindex="0">{{__('Dark')}}</button></p>
-            <form method="POST" action="{{route('bsearch')}}" class="sform">
-                @csrf
-                <input type="text" placeholder="{{__('Search Blog')}}" name="search">
-                <button type="submit">{{__('Search')}}</button>
-                <input type="checkbox" name="keyword" id="keyword" required>
-                <label for="keyword">{{__('By Keyword')}}</label>
-                <input type="checkbox" name="name" id="name" required>
-                <label for="name">{{__('By Name')}}</label>
-            </form>
-            <script>
-                $(function(){
-                    var requiredCheckboxes = $('.sform :checkbox[required]');
-                    requiredCheckboxes.change(function(){
-                        if(requiredCheckboxes.is(':checked')) {
-                            requiredCheckboxes.removeAttr('required');
-                        } else {
-                            requiredCheckboxes.attr('required', 'required');
-                        }
-                    });
-                });
-            </script>
             <button onclick="showCategory()" id="blogc">{{__('Blog Categories')}}</button>
-            {{-- @if (Auth::check()) --}}
-            <button onclick="createBlog()" id="createb">{{__('Create New Blog')}}</button>
-            {{-- @endif --}}
+            <script>
+                function showCategory() {
+                    window.location.href = "/category";
+                }
+            </script>
         </div>
     </section>
     <section id="third3">
-        @if (count($blogs) > 0)
-        @foreach ($blogs->reverse() as $blog)
-         {{-- @if ($i != 5) --}}
-            <div class="img1">
-                <h1 class="imgt">{{$blog->name}}</h1>
-                <a onclick="showBlog({{$blog->id}})"><img id="imgc" class="image inverted" src="{{$blog->link}}"></a>
+        <form action="{{action([App\Http\Controllers\UserController::class, 'update'], $user->id)}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <img id="pimg1" class="image inverted" src='{{url('storage/images/'.$user->file_path)}}'>
+            <div>
+                <input id="file" type="file" name="file" required>
             </div>
-            {{-- @php ($i++) --}}
-            {{-- @endif --}}
-        @endforeach
-        @if (count($blogs) < 4)
-            <script>
-                $(document).ready(function(){
-                    $('.img1').addClass('img11').removeClass('img1');
-                });
-            </script>
-        @endif
-        @else
-        <p class="sno">{{__('Search found nothing :(')}}</p>
-        @endif
-        <script>
-            function createBlog() {
-                window.location.href = "/createblog";
-            }
-            function showBlog(blogID) {
-                window.location.href = "/blog/" + blogID;
-            }
-            function showCategory() {
-                window.location.href = "/category";
-            }
-        </script>
-        {{-- <script>
-            if(Cookies.get('isDark') == 'true'){
-                // alert("hello")
-                document.documentElement.classList.toggle('dark-mode');
-                var element = document.getElementById("bswitch");
-                if (element.innerHTML == "Light"){
-                    element.innerHTML = "Dark";
-                }
-                else element.innerHTML = "Light";
-                document.querySelectorAll('.inverted').forEach(result => {
-                        result.classList.toggle('invert');
-                });
-            }
-        </script> --}}
+            <button id="sub-file" type="submit">{{__('Change')}}</button>
+        </form>
+        <div id="user-user">
+            <p><b>{{__('Username')}}</b>:&nbsp;{{$user->name}}</p>
+        </div>
+        <div id="user-email">
+            <p><b>{{__('Email')}}</b>:&nbsp;{{$user->email}}</p>
+        </div>
+        <div id="user-ca">
+            <p><b>{{__('Created at')}}</b>:&nbsp;{{$user->created_at}}</p>
+        </div>
         <script>
             if (getCookie('theme') == null){
                 // alert("null");

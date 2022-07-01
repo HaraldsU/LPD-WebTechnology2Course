@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>lpdhu21001</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -26,6 +26,25 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{__('Home')}}
                 </a>
+                @php
+                    $count = count(config('app.languages'));
+                    $i = 1;
+                @endphp
+                @if(count(config('app.languages')) > 1)
+                    <li class="language">
+                        <div>
+                            @foreach(config('app.languages') as $langLocale => $langName)
+                                <a class="lang-text" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}</a>
+                                @if ($count > $i)
+                                    <a class="lang-text">|</a>
+                                @endif
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
+                        </div>
+                    </li>
+                @endif
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

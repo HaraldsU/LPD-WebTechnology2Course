@@ -76,6 +76,9 @@ a{
 .cinpp::placeholder{
     color:red;
 }
+.cinpp{
+    color:red;
+}
 .imgt{
     /* text-align: center; */
     position: absolute;
@@ -100,7 +103,7 @@ a{
     vertical-align: middle;
 }
 .language{
-    margin-top: 1.25px;
+    margin-top: 2.5px;
 }
 .lang-text{
     color: black;
@@ -124,6 +127,12 @@ a{
     background-color: white;
     box-shadow: 0px 0px 2px 0px;
 }
+#login:hover{
+    font-weight: bold;
+}
+#register:hover{
+    font-weight: bold;
+}
 .login2{
     margin-top: 3px;
     width: 89%;
@@ -143,6 +152,9 @@ a{
     padding-right: 20px;
     margin-bottom: 10px;
     width: 50px;
+}
+#home:hover{
+    font-weight: bold;
 }
 #second{
     height: 87.05%;
@@ -207,6 +219,27 @@ a{
     height: 100px;
     box-shadow: 0px 0px 2px 0px;
 }
+#pimg1{
+    width: 250px;
+    height: 250px;
+    box-shadow: 0px 0px 2px 0px;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#file{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#sub-file{
+    position: absolute;
+    top: 50%;
+    left: 57.725%;
+    transform: translate(-50%, -50%);
+}
 #pname{
     margin-top: 0px;
     margin-bottom: 5px;
@@ -218,6 +251,27 @@ a{
     padding: 0;
     margin: 0;
     width: 100px;
+}
+#user-user{
+    position: fixed;
+    width: 500px;
+    top: 58%;
+    left: 49.15%;
+    transform: translate(-50%, -50%);
+}
+#user-email{
+    position: absolute;
+    width: 500px;
+    top: 62%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+#user-ca{
+    position: absolute;
+    width: 500px;
+    top: 68.5%;
+    left: 59.9%;
+    transform: translate(-50%, -50%);
 }
 .usercomment{
     background-color: white;
@@ -371,6 +425,18 @@ a{
     margin-left: 50px;
     margin-top: 50px;
 }
+#createkey{
+    position: absolute;
+    width: 125px;
+    margin-left: 50px;
+    margin-top: 85.5px;
+}
+#createkey1{
+    /* position: absolute; */
+    width: 142.75px;
+    margin-left: 45px;
+    margin-top: 15px;
+}
 #blogform{
     display: flex;
     /* align-items: center; */
@@ -398,10 +464,20 @@ a{
     padding: 0;
     margin-bottom: 0;
 }
+#logout:hover{
+    font-weight: bold;
+}
 #log-user{
     white-space: nowrap;
     position: fixed;
     margin-left: 608px;
+}
+#log-user a{
+    text-decoration: none;
+    color: black;
+}
+#log-user a:hover{
+    font-weight: bold;
 }
 #createcat{
     margin-top: 15px;
@@ -466,6 +542,46 @@ a{
     color: red;
     font-weight: bold;
     text-align: center;
+}
+#keyword-div{
+    width: 1300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#cr-key{
+    position: absolute;
+    top: 125px;
+    left: 520px;
+}
+#cr-key-text{
+    text-align: center;
+}
+#ed-key{
+    position: absolute;
+    top: 270px;
+    left: 520px;
+}
+#ed-key-text{
+    text-align: center;
+}
+#ed-key select{
+    width: 230px;
+}
+#value{
+    width: 180.5px;
+}
+#del-key{
+    position: absolute;
+    top: 415px;
+    left: 520px;
+}
+#del-key-text{
+    text-align: center;
+}
+#id2{
+    width: 173px;
 }
 /* #error-edit{
     padding: 0;

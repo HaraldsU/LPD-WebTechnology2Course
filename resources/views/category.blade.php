@@ -1,10 +1,3 @@
-<script>
-    var perfEntries = performance.getEntriesByType("navigation");
-
-    if (perfEntries[0].type === "back_forward") {
-        location.reload(true);
-    }
-</script>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,11 +11,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
+    <script>
+        var perfEntries = performance.getEntriesByType("navigation");
+
+        if (perfEntries[0].type === "back_forward") {
+            location.reload(true);
+        }
+    </script>
     <section id="first">
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}}</a>
                 @if (Auth::check())
-                    <p class="login-text" id="log-user">{{__('User')}}:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                <p class="login-text" id="log-user"><a href="{{url('/user/'.Auth::id())}}">{{__('User')}}</a>:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
                 @endif
                 @php
                     $count = count(config('app.languages'));
@@ -85,6 +85,14 @@
                 });
             </script>
             <button onclick="createCategory()" id="createcat">{{__('Create New Category')}}</button>
+            @if (!Auth::guest())
+                @php
+                    $user = Auth::user();
+                @endphp
+                @if ($user->isAdmin == true)
+                <button onclick="keywords()" id="createkey1">{{__('Keywords')}}</button>
+                @endif
+            @endif
             <div class = "ddel">
                 @if($errors->has('categorycreate'))
                     @foreach ($errors->all() as $error)
@@ -109,6 +117,9 @@
             </script>
         @endif
         <script>
+            function keywords() {
+                window.location.href = "/keywords";
+            }
             function createCategory() {
                 // alert("hello");
                 window.location.href = "/createcategory";

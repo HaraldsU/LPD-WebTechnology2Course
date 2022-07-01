@@ -6,6 +6,7 @@ use App\Models\Keyword;
 use App\Models\BlogCategory;
 use App\Models\Blog;
 use App\Models\User;
+use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -185,19 +186,22 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin123123'),
-            'isAdmin' => '1'
+            'isAdmin' => '1',
+            'email_verified_at' => Carbon::now()
         ]);
         User::create([
             'name' => 'HaraldsU',
             'email' => '11rembo11pvp@gmail.com',
             'password' => bcrypt('haraldsu123'),
-            'isAdmin' => '0'
+            'isAdmin' => '0',
+            'email_verified_at' => Carbon::now()
         ]);
         User::create([
             'name' => 'My Name Is Very Long For Testing',
             'email' => 'long@long.com',
             'password' => bcrypt('longlong123'),
-            'isAdmin' => '0'
+            'isAdmin' => '0',
+            'email_verified_at' => Carbon::now(),
         ]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

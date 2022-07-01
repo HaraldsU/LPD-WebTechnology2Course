@@ -15,7 +15,7 @@
             <div class="login">
                 <a id="home" class="login-text" href="{{url('/')}}">{{__('Home')}} </a>
                 @if (Auth::check())
-                    <p class="login-text" id="log-user">{{__('User')}}:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
+                <p class="login-text" id="log-user"><a href="{{url('/user/'.Auth::id())}}">{{__('User')}}</a>:&nbsp;&nbsp;<i>{{Auth::user()->name}}</i></p>
                 @endif
                 @php
                     $count = count(config('app.languages'));
